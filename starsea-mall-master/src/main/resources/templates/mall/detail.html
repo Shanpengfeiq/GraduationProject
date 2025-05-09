@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="mall/header::head-fragment('乐淘乐器商城-商品详情','detail')">
+</head>
+<body>
+<header th:replace="mall/header::header-fragment"></header>
+
+<div id="detail">
+    <!-- nav -->
+<!--    <nav th:replace="mall/header::nav-fragment"></nav>-->
+
+<!--    <div class="dc">-->
+<!--        <div class="content w">-->
+<!--           -->
+<!--            <div class="clear"></div>-->
+<!--        </div>-->
+<!--    </div>-->
+    <div class="product-container">
+        <div class="product-images">
+            <div class="main-image">
+                <!--<img id="main-img" src="xtj1.webp" alt="Product Image">-->
+                <img th:src="@{${goodsDetail.goodsCoverImg}}">
+            </div>
+        </div>
+        <div class="product-info">
+            <h2 class="product-title" th:text="${goodsDetail.goodsName}">智能运动手表</h2>
+            <div class="price" >
+                <p class="product-price" th:text="'价格:'+${goodsDetail.originalPrice}+'元'">$299.99</p>
+                <span class="originalPrice" th:text="'原价:'+${goodsDetail.sellingPrice}+'元'"></span>
+            </div>
+            <p class="product-description" th:text="${goodsDetail.goodsIntro}"> 这款智能运动手表集健康监测、运动追踪、消息提醒等多种功能于一身。采用高品质材料打造，外观时尚，佩戴舒适。精准的数据记录和个性化的功能设置，让你轻松掌控运动和生活。</p>
+            <div class="quantity-selector">
+                <button onclick="decreaseQuantity()"><i class="fas fa-minus"></i></button>
+                <input type="number" id="quantity" value="1" min="1">
+                <button onclick="increaseQuantity()"><i class="fas fa-plus"></i></button>
+                <p class="product-stockNum" th:text="'库存:'+${goodsDetail.stockNum}">$299.99</p>
+            </div>
+            <div class="button-container">
+                <button class="add-to-cart" th:onclick="'saveAndGoCart('+${goodsDetail.goodsId}+')'"><i class="fas fa-shopping-cart"></i>立即购买</button>
+                <button class="add-to-cart" th:onclick="'saveToCart('+${goodsDetail.goodsId}+')'"><i class="fas fa-bolt"></i>加入购物车 </button>
+            </div>
+        </div>
+    </div>
+    <div class="introduce">
+        <!-- 切换文字容器 -->
+        <div class="tab-links" id="tabLinks">
+            <div class="lefte">
+                <span onclick="openTab('product-intro')" class="active">详情</span>
+                <span onclick="openTab('comments')">评论</span>
+            </div>
+
+            <div class="rigth" id="rigth">
+                <p th:text="'秒杀价:'+${goodsDetail.sellingPrice}+'元'">1212</p>
+                <button class="add-to-cart" th:onclick="'saveAndGoCart('+${goodsDetail.goodsId}+')'"><i class="fas fa-shopping-cart"></i>立即购买</button>
+                <button class="add-to-cart" th:onclick="'saveToCart('+${goodsDetail.goodsId}+')'"><i class="fas fa-bolt"></i>加入购物车 </button>
+            </div>
+        </div>
+        <hr class="title_hr">
+        <!-- 内容区域 -->
+        <div class="tab-content">
+            <!-- 商品详细简介内容 -->
+            <div id="product-intro" class="active">
+                <h2 th:text="${goodsDetail.goodsName}"></h2>
+                <h3 th:text="${goodsDetail.goodsIntro}"></h3>
+                <p th:utext="${goodsDetail.goodsDetailContent}">这是一款高品质的商品，具备多种实用功能。它采用了先进的技术和优质的材料，设计精美，使用起来非常方便。无论是日常使用还是特殊场合，它都能满足你的需求。商品的性能稳定，可靠性高，能够为你带来出色的体验。</p>
+                <img th:src="${goodsDetail.goodsCoverImg}" />
+            </div>
+
+            <!-- 评论内容 -->
+            <div id="comments">
+                <div id="starComments">
+                    <th:block th:if="${#lists.isEmpty(goodsMarks)}">
+                        <img src="/goods-img/noComment.png">
+                    </th:block>
+                    <th:block th:unless="${#lists.isEmpty(goodsMarks)}">
+                    <h2>总评分:</h2>
+                    <div id="rating-container">
+                        <i class="fa-solid fa-star star starTotal" data-rating="5"></i>
+                        <i class="fa-solid fa-star star starTotal" data-rating="4"></i>
+                        <i class="fa-solid fa-star star starTotal" data-rating="3"></i>
+                        <i class="fa-solid fa-star star starTotal" data-rating="2"></i>
+                        <i class="fa-solid fa-star star starTotal" data-rating="1"></i>
+                    </div>
+                </div>
+
+                <ul id="comments-list">
+                    <th:block th:each="goodsMark : ${goodsMarks}">
+                        <li>
+                            <img th:src="@{${goodsMark.userAvatar}}"/>
+                            <div id="starList">
+                                <h3 th:text="${goodsMark.userName}">李四</h3>
+                                <div id="rating-container" class="rating-container" th:attr="data-message=${goodsMark.mark}">
+                                    <i class="fa-solid fa-star star" data-rating="5"></i>
+                                    <i class="fa-solid fa-star star" data-rating="4"></i>
+                                    <i class="fa-solid fa-star star" data-rating="3"></i>
+                                    <i class="fa-solid fa-star star" data-rating="2"></i>
+                                    <i class="fa-solid fa-star star" data-rating="1"></i>
+                                </div>
+                            </div>
+                            <p id="near" th:text="${#dates.format(goodsMark.reviewTime, 'yyyy-MM-dd HH:mm:ss')}">2025年1月1日</p>
+                            <p id="PComment" th:text="${goodsMark.reviewContent}">
+                                使用起来很方便，推荐给大家。
+                            </p>
+                        </li>
+                    </th:block>
+                    </th:block>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div th:replace="mall/footer::footer-fragment"></div>
+
+<!-- jQuery -->
+<script th:src="@{/admin/plugins/jquery/jquery.min.js}"></script>
+<script th:src="@{/admin/plugins/sweetalert/sweetalert.min.js}"></script>
+<script th:src="@{/mall/js/search.js}" type="text/javascript"></script>
+<script type="text/javascript">
+    let totalMark=0;
+    let count=0;
+//评分
+document.addEventListener('DOMContentLoaded', function() {
+    const ratingContainers = document.querySelectorAll('.rating-container');
+    ratingContainers.forEach(container => {
+        const message = container.dataset.message;
+        totalMark+=Number(message);
+        count++;
+        updateStars(container, message);
+    });
+    let mark=totalMark/count;
+    updateTotalStars(Number(mark))
+});
+
+
+function updateStars(container, rating) {
+    const stars = container.querySelectorAll('.star');
+    stars.forEach(star => {
+        const starRating = parseInt(star.dataset.rating);
+        if (starRating <= rating) {
+            star.classList.add('selected');
+        } else {
+            star.classList.remove('selected');
+        }
+    });
+}
+
+
+function updateTotalStars(rating) {
+    const stars = document.querySelectorAll('.starTotal');
+    stars.forEach(star => {
+        const starRating = parseInt(star.dataset.rating);
+        if (starRating <= rating) {
+            star.classList.add('selected'); // 点亮星星
+        } else {
+            star.classList.remove('selected'); // 熄灭星星
+        }
+    });
+}
+
+
+
+
+
+    // 获取切换文字容器元素
+    const tabLinks = document.getElementById('tabLinks');
+    const rigth = document.getElementById('rigth');
+    // 获取切换文字容器初始顶部位置
+    const sticky = tabLinks.offsetTop;
+
+    // 切换标签页函数
+    function openTab(tabName) {
+        const tabContents = document.querySelectorAll('.tab-content div');
+        const tabSpans = document.querySelectorAll('.tab-links span');
+        const commentsList=document.querySelectorAll('.comments-list');
+
+        tabContents.forEach(content => {
+            content.classList.remove('active');
+        });
+        tabSpans.forEach(span => {
+            span.classList.remove('active');
+        });
+
+        document.getElementById(tabName).classList.add('active');
+        document.querySelector(`.tab-links span[onclick="openTab('${tabName}')"]`).classList.add('active');
+    }
+
+    // 添加评论函数
+    function addComment() {
+        const commentInput = document.getElementById('comment-input');
+        const commentText = commentInput.value;
+
+        if (commentText.trim()!== '') {
+            const commentsList = document.getElementById('comments-list');
+            const newComment = document.createElement('li');
+            newComment.textContent = commentText;
+            commentsList.appendChild(newComment);
+            commentInput.value = '';
+        }
+    }
+
+    // 滚动检查函数
+    function checkScrollPosition() {
+        if (window.pageYOffset >= sticky) {
+            tabLinks.classList.add('fixed');
+            rigth.classList.remove('hind');
+        } else {
+            tabLinks.classList.remove('fixed');
+            rigth.classList.add('hind');
+        }
+    }
+
+    // 监听窗口滚动事件
+    window.onscroll = checkScrollPosition;
+
+    // 页面加载完成后检查滚动位置
+    window.onload = checkScrollPosition;
+
+    /*
+    * 添加样式
+    * */
+    function changeImage(src) {
+        const mainImg = document.getElementById('main-img');
+        mainImg.src = src;
+        const thumbnails = document.querySelectorAll('.thumbnail-images img');
+        thumbnails.forEach(thumbnail => {
+            if (thumbnail.src === src) {
+                thumbnail.classList.add('active');
+            } else {
+                thumbnail.classList.remove('active');
+            }
+        });
+    }
+    const quantityInput = document.getElementById('quantity');
+    //获取库存数量
+    const stockElement = document.querySelector('.product-stockNum');
+    const stockText = stockElement.textContent;
+    const stockValue = stockText.replace('库存:', '');
+    function increaseQuantity() {
+        const currentValue = parseInt(quantityInput.value);
+        console.log('--------------'+quantityInput.value)
+        console.log('=================='+stockValue)
+        if (currentValue < 5 && quantityInput.value < stockValue){
+            quantityInput.value = parseInt(quantityInput.value) + 1;
+        }
+    }
+    function decreaseQuantity() {
+        const currentValue = parseInt(quantityInput.value);
+        if (currentValue > 1) {
+            quantityInput.value = currentValue - 1;
+        }
+    }
+
+    /**
+     * 添加到购物车
+     */
+    function saveToCart(id) {
+        if(stockValue<=0){
+            alert("库存不足")
+            return;
+        }
+        var goodsCount = quantityInput.value;
+        var data = {
+            "goodsId": id,
+            "goodsCount": goodsCount,
+            "stockValue":stockValue
+        };
+        $.ajax({
+            type: 'POST',
+            url: '/shop-cart',
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            success: function (result) {
+                if (result.resultCode == 200) {
+                    swal({
+                        title: "添加成功",
+                        text: "确认框",
+                        icon: "success",
+                        buttons: true,
+                        dangerMode: true,
+                    }).then((flag) => {
+                            window.location.reload();
+                        }
+                    );
+                } else {
+                    swal(result.message, {
+                        icon: "error",
+                    });
+                }
+            },
+            error: function () {
+                swal("操作失败", {
+                    icon: "error",
+                });
+            }
+        });
+    }
+
+    /**
+     * 添加到购物车并跳转至购物车页面
+     */
+    function saveAndGoCart(id) {
+        if(stockValue<=0){
+            alert("库存不足")
+            return;
+        }
+        var goodsCount = 1;
+        var data = {
+            "goodsId": id,
+            "goodsCount": goodsCount
+        };
+        $.ajax({
+            type: 'POST',
+            url: '/shop-cart',
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            success: function (result) {
+                if (result.resultCode == 200) {
+                    swal({
+                        title: "已将商品加入购物车",
+                        icon: "success",
+                        buttons: {
+                            cancel: "留在当前页",
+                            confirm: "去购物车结算"
+                        },
+                        dangerMode: false,
+                    }).then((flag) => {
+                            if (flag) {
+                                window.location.href = '/shop-cart';
+                            }
+                        }
+                    );
+                } else {
+                    swal(result.message, {
+                        icon: "error",
+                    });
+                }
+            },
+            error: function () {
+                swal("操作失败", {
+                    icon: "error",
+                });
+            }
+        });
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="mall/header::head-fragment('乐淘乐器商城商城-订单详情','order-detail')">
+    <link rel="icon" href="/goods-img/lqlogo.png" type="image/png">
+</head>
+<link rel="stylesheet" th:href="@{/admin/plugins/sweetalert/sweetalert.css}"/>
+<body>
+<header th:replace="mall/header::header-fragment"></header>
+<!--新样式-->
+<div id="personal">
+            <div class="container">
+                <!-- 订单头 -->
+                <div class="card">
+                    <div class="order-header">
+                        <div class="order-id">
+                            订单号:<span id="orderNoSpan" th:text="${orderDetailVO.orderNo}">20231025-ABCD</span>
+                        </div>
+                        <div class="payment-status status-warning pulse">
+                            <!--                :0.待支付 1.已支付 2.配货完成 3:出库成功 4.交易成功 -1.手动关闭 -2.超时关闭 -3.商家关闭-->
+                            <th:block th:if="${orderDetailVO.orderStatus==0}">
+                                <div class="order-status pending">
+                                    <i class="fas fa-check-circle"></i>
+                                    <th:block th:text="${' '+orderDetailVO.orderStatusString}"></th:block>
+                                </div>
+                            </th:block>
+                            <th:block th:if="${orderDetailVO.orderStatus==1}">
+                                <div class="order-status paid">
+                                    <i class="fas fa-check-circle"></i>
+                                    <th:block th:text="${' '+orderDetailVO.orderStatusString}"></th:block>
+                                </div>
+                            </th:block>
+                            <th:block th:if="${orderDetailVO.orderStatus==2}">
+                                <div class="order-status ready">
+                                    <i class="fas fa-box"></i>
+                                    <th:block th:text="${' '+orderDetailVO.orderStatusString}"></th:block>
+                                </div>
+                            </th:block>
+                            <th:block th:if="${orderDetailVO.orderStatus==3}">
+                                <div class="order-status out">
+                                    <i class="fas fa-truck"></i>
+                                    <th:block th:text="${' '+orderDetailVO.orderStatusString}"></th:block>
+                                </div>
+                            </th:block>
+                            <th:block th:if="${orderDetailVO.orderStatus==4}">
+                                <div class="order-status success">
+                                    <i class="fas fa-thumbs-up"></i></i>
+                                    <th:block th:text="${' '+orderDetailVO.orderStatusString}"></th:block>
+                                </div>
+                            </th:block>
+                            <th:block th:if="${orderDetailVO.orderStatus==-1}">
+                                <div class="order-status closed-manual">
+                                    <i class="fas fa-times-circle"></i></i>
+                                    <th:block th:text="${' '+orderDetailVO.orderStatusString}"></th:block>
+                                </div>
+                            </th:block>
+                            <th:block th:if="${orderDetailVO.orderStatus==-2}">
+                                <div class="order-status closed-timeout">
+                                    <i class="fas fa-times-circle"></i>
+                                    <th:block th:text="${' '+orderDetailVO.orderStatusString}"></th:block>
+                                </div>
+                            </th:block>
+                            <th:block th:if="${orderDetailVO.orderStatus==-3}">
+                                <div class="order-status closed-merchant">
+                                    <i class="fas fa-times-circle"></i>
+                                    <th:block th:text="${' '+orderDetailVO.orderStatusString}"></th:block>
+                                </div>
+                            </th:block>
+                        </div>
+
+                        <!-- 支付操作 -->
+                        <div class="text-right mt-6">
+                            <th:block th:if="${orderDetailVO.orderStatus==0}">
+                                <button class="pay-button" onclick="showPaymentContainer()">
+                                    <i class="fas fa-wallet"></i>
+                                    立即支付
+                                </button>
+                            </th:block>
+                            <th:block th:if="${orderDetailVO.orderStatus>=2&&orderDetailVO.orderStatus<=3}">
+                                <button class="pay-button" onclick="finishOrder()">
+                                    <i class="fas fa-wallet"></i>
+                                    确认收货
+                                </button>
+                            </th:block>
+                        </div>
+                    </div>
+                    <!-- 遮罩层 -->
+                    <div class="overlayDf"></div>
+                    <!-- 打分弹窗 -->
+                    <div class="rating-modal">
+                        <h2 style="text-align: center; margin-bottom: 10px;">请为我们打分</h2>
+                        <div class="rating-container">
+                            <i class="fa-solid fa-star star" data-rating="1"></i>
+                            <i class="fa-solid fa-star star" data-rating="2"></i>
+                            <i class="fa-solid fa-star star" data-rating="3"></i>
+                            <i class="fa-solid fa-star star" data-rating="4"></i>
+                            <i class="fa-solid fa-star star" data-rating="5"></i>
+                        </div>
+                        <!-- 评价输入框 -->
+                        <textarea class="review-input" placeholder="请输入您的评价"></textarea>
+                        <!-- 按钮容器 -->
+                        <div class="button-container">
+                            <button class="modal-button cancel-button">取消</button>
+                            <button class="modal-button confirm-button">确认</button>
+                        </div>
+                        <div class="rating-result"></div>
+                    </div>
+
+                    <!-- 增强版进度条 -->
+                    <div class="progress-container">
+                        <div class="progress-track">
+                            <div class="progress-fill" style="width: 25%"></div>
+                        </div>
+                        <div class="steps-container" th:attr="data-message=${orderDetailVO.orderStatus}">
+                            <div class="step done">
+                                <div class="step-icon">
+                                    <i class="fas fa-cart-plus"></i>
+                                </div>
+                                <div>下单成功</div>
+                            </div>
+                            <div class="step active pulse">
+                                <div class="step-icon">
+                                    <i class="fas fa-credit-card"></i>
+                                </div>
+                                <div class="orderStatusString">等待支付</div>
+                            </div>
+                            <div class="step">
+                                <div class="step-icon">
+                                    <i class="fas fa-warehouse"></i>
+                                </div>
+                                <div>商品配货</div>
+                            </div>
+                            <div class="step">
+                                <div class="step-icon">
+                                    <i class="fas fa-shipping-fast"></i>
+                                </div>
+                                <div>物流发货</div>
+                            </div>
+                            <div class="step">
+                                <div class="step-icon">
+                                    <i class="fas fa-check-double"></i>
+                                </div>
+                                <div>交易完成</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 商品详情 -->
+                <div class="card">
+                    <th:block th:each="item : ${orderDetailVO.orderItemVOS}">
+                    <div class="product-grid"  th:attr="data-message=${item.goodsId}">
+                        <img th:src="@{${item.goodsCoverImg}}" alt="商品图片" class="product-image">
+                        <div class="product-info">
+                            <h2 class="product-title" th:text="${item.goodsName}">旗舰智能手机 X-Pro 2023</h2>
+                            <div class="product-sku">型号：X-Pro 256GB 星空黑</div>
+                            <div class="product-sku" >数量：<span th:text="${item.goodsCount}"></span>件</div>
+                            <div class="product-sku">订单备注：优先发货</div>
+                        </div>
+                        <div class="text-right">
+                            <th:block th:if="${orderDetailVO.orderStatus==4}">
+                                <!-- 点击弹出打分弹窗的按钮 -->
+                                <button id="openRatingButton">点击打分</button>
+                            </th:block>
+                            <th:block th:if="${orderDetailVO.orderStatus!=4}">
+                                <div class="text-xl font-bold text-primary" style="color: red">¥<span th:text="${item.sellingPrice}+元" ></span></div>
+                                <div class="text-sm text-gray-500">包邮</div>
+                            </th:block>
+
+                        </div>
+
+                    </div>
+                    </th:block>
+                </div>
+
+                <!-- 信息面板 -->
+                <div class="info-grid">
+                    <div class="info-panel">
+                        <h3 class="text-lg font-semibold mb-4"><i class="fas fa-map-marker-alt mr-2"></i>收货信息</h3>
+                        <div class="info-item">
+                            <span>收件人：</span>
+                            <span th:text="${session.newBeeMallUser.nickName}" th:attr="data-user-id=${session.newBeeMallUser.userId}"></span>
+                        </div>
+                        <div class="info-item">
+                            <span>联系电话：</span>
+                            <span th:text="${session.newBeeMallUser.loginName}">138-0013-8000</span>
+                        </div>
+                        <div class="info-item">
+                            <span>收货地址：</span>
+                            <span th:text="${orderDetailVO.userAddress}">北京市朝阳区<br>某某街道123号大厦A座</span>
+                        </div>
+                    </div>
+
+                    <div class="info-panel">
+                        <h3 class="text-lg font-semibold mb-4"><i class="fas fa-credit-card mr-2"></i>支付信息</h3>
+                        <div class="info-item">
+                            <span>支付方式：</span>
+                            <span th:text="${orderDetailVO.payTypeString==null?'在线支付':orderDetailVO.payTypeString}">支付宝 (尾号1234)</span>
+                        </div>
+                        <div class="info-item">
+                            <span>商品总额：</span>
+                            <span th:text="${orderDetailVO.totalPrice+'.00'}+元" style="color: red">¥5999.00</span>
+                        </div>
+                        <div class="info-item font-bold">
+                            <span>实付款：</span>
+                            <span class="text-primary" th:text="${orderDetailVO.totalPrice+'.00'}+元" style="color: red">¥5799.00</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    <!-- 悬浮按钮 -->
+    <th:block th:if="${orderDetailVO.orderStatus<=3}">
+        <div class="floating-btn" onclick="cancelOrder()">取消订单</div>
+    </th:block>
+    <!--    支付页面-->
+    <!-- 触发按钮 -->
+
+    <div class="overlay" id="overlay"></div>
+    <div class="payment-container" id="payment-container">
+        <a href="##"><i class="close-icon fa-solid fa-xmark" onclick="hidePaymentContainer()"></i></a>
+        <h2 class="payment-title">订单支付</h2>
+        <div class="order-info">
+            <p><strong>订单编号:</strong> <span id="order-number" th:text="${orderDetailVO.orderNo}">202503071234</span></p>
+            <p><strong>订单总价:</strong> <span id="total-price" th:text="${orderDetailVO.totalPrice+'.00'}+元">350.00</span></p>
+        </div>
+        <div class="payment-methods">
+            <div class="payment-method" onclick="togglePaymentDetails('wechat')">
+                <div style="display: flex; align-items: center;">
+                    <input type="radio" id="wechat-pay" name="payment-method" value="wechat" checked>
+                    <i class="payment-icon wechat-icon fa-brands fa-weixin"></i>
+                    <label for="wechat-pay">微信支付</label>
+                </div>
+                <div id="wechat-details" class="payment-details">
+                    <h2 class="font">微信支付二维码</h2>
+                    <img class="qr-code" src="/goods-img/lqlogo.png" alt="微信支付二维码">
+                    <button class="pay-button02" onclick="processPayment(2)">立即支付</button>
+                </div>
+            </div>
+            <div class="payment-method" onclick="togglePaymentDetails('alipay')">
+                <div style="display: flex; align-items: center;">
+                    <input type="radio" id="alipay-pay" name="payment-method" value="alipay">
+                    <i class="payment-icon alipay-icon fa-solid fa-qrcode"></i>
+                    <label for="alipay-pay">支付宝支付</label>
+                </div>
+                <div id="alipay-details" class="payment-details">
+                    <h2 class="font">支付宝支付二维码</h2>
+                    <img class="qr-code" src="/goods-img/lqlogo.png" alt="支付宝支付二维码">
+                    <button class="pay-button02" onclick="processPayment(1)">立即支付</button>
+                </div>
+            </div>
+            <div class="payment-method" onclick="togglePaymentDetails('balance')">
+                <div style="display: flex; align-items: center;">
+                    <input type="radio" id="balance-pay" name="payment-method" value="balance">
+                    <i class="payment-icon balance-icon fa-solid fa-wallet"></i>
+                    <label for="balance-pay">账号余额支付</label>
+                </div>
+                <div id="balance-details" class="payment-details">
+                    <h2 class="font">账户余额支付</h2>
+                    <p>您的账户余额: <span id="account-balance" th:text="${session.newBeeMallUser.balance}" >500.00</span> 元</p>
+                    <button class="pay-button02" onclick="processPayment(3)">立即支付</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="loading-icon">
+        <div class="wave">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+</div>
+
+<div th:replace="mall/footer::footer-fragment"></div>
+<!-- jQuery -->
+<script th:src="@{/admin/plugins/jquery/jquery.min.js}"></script>
+<script th:src="@{/admin/plugins/sweetalert/sweetalert.min.js}"></script>
+<script type="text/javascript">
+//进度条
+var div = document.querySelector('.steps-container');
+var message = div.getAttribute('data-message');
+var progressFill = document.querySelector('.progress-fill');
+var steps = document.querySelectorAll('.step');
+var  Min0=document.querySelector('.progress-container');
+var  cancel=document.querySelector('.floating-btn');
+// 获取元素文本内容
+const span = document.getElementById('total-price');
+const text = span.textContent || span.innerText; // "350.00元"
+// 提取数值（正则表达式）
+const price = parseFloat(text.replace(/[^0-9.]/g, '')); // 350
+
+if (message==='1'){
+    progressFill.style.width = '50%';
+    indexs=Number(message);
+}
+if (message==='2'){
+    progressFill.style.width = '75%';
+    indexs=Number(message);
+}
+if (message==='3'){
+    progressFill.style.width = '100%';
+    indexs=Number(message);
+}
+if (message==='4'){
+    progressFill.style.width = '100%';
+    indexs=Number(message);
+}
+if(Number(message)<0){
+    Min0.style.display='none';
+    cancel.style.display = 'none';
+}
+if(message!='0'){
+    steps.forEach((step, index) => {
+        step.classList.remove('active', 'done','pulse');
+        if(index <= indexs) step.classList.add('done');
+        if(index===indexs+1){
+            step.classList.add('pulse','active');
+        }
+    });
+}
+// 打开模态框函数
+function openModal() {
+    document.getElementById('myModal').style.display = 'flex';
+}
+
+// 关闭模态框函数
+function closeModal() {
+    document.getElementById('myModal').style.display = 'none';
+}
+
+// 确认取消订单函数
+function confirmCancel() {
+    // 这里可以添加实际的取消订单逻辑，比如发送 AJAX 请求
+    alert('订单已成功取消！');
+    closeModal();
+}
+
+    function cancelOrder() {
+        var orderNo = $("#orderNoSpan").text();
+        swal({
+            title: "请注意",
+            text: "确认要取消订单吗?",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then((flag) => {
+                if (flag) {
+                    $.ajax({
+                        type: 'PUT',
+                        url: '/orders/' + orderNo + '/cancel',
+                        success: function (result) {
+                            if (result.resultCode == 200) {
+                                window.location.reload();
+                            } else {
+                                swal(result.message, {
+                                    icon: "error",
+                                });
+                            }
+                        },
+                        error: function () {
+                            swal("操作失败", {
+                                icon: "error",
+                            });
+                        }
+                    });
+                }
+            }
+        )
+        ;
+    }
+    function finishOrder() {
+        var orderNo = $("#orderNoSpan").text();
+        $.ajax({
+            type: 'PUT',
+            url: '/orders/' + orderNo + '/finish',
+            success: function (result) {
+                if (result.resultCode == 200) {
+                    window.location.reload();
+                } else {
+                    swal(result.message, {
+                        icon: "error",
+                    });
+                }
+            },
+            error: function () {
+                swal("操作失败", {
+                    icon: "error",
+                });
+            }
+        });
+    }
+
+//支付界面
+function showPaymentContainer() {
+    document.getElementById('overlay').style.display = 'block';
+    document.getElementById('payment-container').style.display = 'block';
+    document.getElementById('payment-container').style.animation = 'fadeIn 0.5s ease forwards';
+}
+
+function hidePaymentContainer() {
+    document.getElementById('payment-container').style.animation = 'fadeOut 0.5s ease forwards';
+    setTimeout(() => {
+        document.getElementById('overlay').style.display = 'none';
+        document.getElementById('payment-container').style.display = 'none';
+    }, 500);
+}
+
+function togglePaymentDetails(method) {
+    // 隐藏所有支付详情
+    const allDetails = document.querySelectorAll('.payment-details');
+    allDetails.forEach(detail => {
+        if (detail.id === `${method}-details`) {
+            detail.style.display = detail.style.display === 'block'? 'none' : 'block';
+        } else {
+            detail.style.display = 'none';
+        }
+    });
+}
+function processPayment(payType) {
+    var orderNo = $("#orderNoSpan").text();
+    $('.loading-icon').show();
+    setTimeout(function () {
+        $.ajax({
+            type: 'GET',
+            url: '/paySuccess?payType='+payType+'&orderNo=' + orderNo+'&price='+price,
+            success: function (result) {
+                if (result.resultCode == 200) {
+                    alert("支付成功");
+                    window.location.reload();
+                } else {
+                    alert(result.message);
+                    window.location.reload();
+                }
+            },
+            error: function () {
+                alert("操作失败");
+            }
+        });
+    }, 2000);
+    hidePaymentContainer();
+}
+
+
+//打分
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    // 获取按钮、遮罩层、弹窗、星星、输入框、结果显示元素以及取消和确认按钮
+    const openRatingButton = document.getElementById('openRatingButton');
+    const overlay = document.querySelector('.overlayDf');
+    const ratingModal = document.querySelector('.rating-modal');
+    const stars = document.querySelectorAll('.star');
+    const reviewInput = document.querySelector('.review-input');
+    const ratingResult = document.querySelector('.rating-result');
+    const cancelButton = document.querySelector('.cancel-button');
+    const confirmButton = document.querySelector('.confirm-button');
+
+    // 初始化当前评分
+    let currentRating = 0;
+    let isConfirmed = false;
+
+    // 点击按钮显示弹窗和遮罩层
+    openRatingButton.addEventListener('click', function () {
+        overlay.style.display = 'block';
+        ratingModal.style.display = 'block';
+        isConfirmed = false;
+        currentRating = 0;
+        updateStars(0);
+        reviewInput.value = '';
+    });
+
+    // 为每个星星添加鼠标悬停、移出和点击事件监听器
+    stars.forEach(star => {
+        const mouseOverHandler = function () {
+            if (!isConfirmed) {
+                const rating = parseInt(this.dataset.rating);
+                updateStars(rating);
+            }
+        };
+
+        const mouseOutHandler = function () {
+            if (!isConfirmed) {
+                updateStars(currentRating);
+            }
+        };
+
+        const clickHandler = function () {
+            if (!isConfirmed) {
+                currentRating = parseInt(this.dataset.rating);
+                updateStars(currentRating);
+            }
+        };
+
+        star.addEventListener('mouseover', mouseOverHandler);
+        star.addEventListener('mouseout', mouseOutHandler);
+        star.addEventListener('click', clickHandler);
+    });
+
+    // 点击确认按钮
+    confirmButton.addEventListener('click', function () {
+        if (!isConfirmed) {
+            isConfirmed = true;
+            showRatingResult();
+            // 移除星星事件监听器
+            stars.forEach(star => {
+                star.style.cursor = 'default';
+            });
+            const productGrids = document.querySelectorAll('.product-grid');
+            productGrids.forEach(function (grid) {
+                // 获取 data-GoodsMessage 属性值
+                const goodsId = grid.dataset.message;
+                console.log('商品 ID:', goodsId);
+                const spanElement = document.querySelector('[data-user-id]');
+                const userId = spanElement.dataset.userId;
+                console.log('用户 ID:', userId);
+                const review = reviewInput.value;
+                console.log('评论内容:', review,currentRating)
+                $.ajax({
+                    type: 'POST',
+                    url: '/orders/mark',
+                    data: {
+                        goodsId: goodsId,
+                        userId: userId,
+                        reviewContent: review,
+                        mark: currentRating
+                    },
+                    success: function (result) {
+                        if (result.resultCode == 200) {
+                            // alert("评论成功");
+                            window.location.reload();
+                        } else {
+                            alert(result.message);
+                        }
+                    }
+                })
+            });
+            setTimeout(() => {
+                overlay.style.display = 'none';
+                ratingModal.style.display = 'none';
+                ratingResult.style.display = 'none';
+                isConfirmed = false;
+                currentRating = 0;
+                updateStars(0);
+                reviewInput.value = '';
+                // 恢复星星事件监听器
+                stars.forEach(star => {
+                    star.style.cursor = 'pointer';
+                });
+            }, 2000);
+        }
+    });
+
+    // 点击取消按钮
+    cancelButton.addEventListener('click', function () {
+        overlay.style.display = 'none';
+        ratingModal.style.display = 'none';
+        isConfirmed = false;
+        currentRating = 0;
+        updateStars(0);
+        reviewInput.value = '';
+    });
+
+    // 根据评分更新星星的颜色
+    function updateStars(rating) {
+        stars.forEach(star => {
+            const starRating = parseInt(star.dataset.rating);
+            if (starRating <= rating) {
+                star.classList.add('selected');
+            } else {
+                star.classList.remove('selected');
+            }
+        });
+    }
+
+    // 显示评分结果
+    function showRatingResult() {
+        const review = reviewInput.value;
+
+        let resultText = `感谢您的打分！您给出了 ${currentRating} 星评价。`;
+        ratingResult.textContent = resultText;
+        ratingResult.style.display = 'block';
+        openRatingButton.style.display = 'none';
+    }
+});
+</script>
+</body>
+</html>

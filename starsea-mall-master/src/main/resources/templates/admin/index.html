@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- 引入 Bootstrap CSS -->
+    <link rel="stylesheet" th:href="@{/admin/plugins/bootstrap/css/bootstrap.min.css}">
+
+    <!-- 引入自定义 CSS 样式 -->
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f9;
+        }
+
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            background-color: #007BFF;
+            color: white;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            padding: 1.2rem;
+        }
+
+        .card-body {
+            padding: 2rem;
+        }
+
+        .img-fluid {
+            border-radius: 5px;
+            margin-bottom: 1.5rem;
+        }
+
+        .lead {
+            font-size: 1.2rem;
+            font-weight: 400;
+            color: #333;
+        }
+
+        .text {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .text li {
+            margin-bottom: 0.8rem;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .text li::before {
+            content: '✓';
+            color: #007BFF;
+            position: absolute;
+            left: 0;
+        }
+
+        a {
+            color: #007BFF;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: #0056b3;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<header th:replace="admin/header::header-fragment"></header>
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+    <!-- 引入页面头header-fragment -->
+    <div th:replace="admin/header::header-nav"></div>
+    <!-- 引入工具栏sidebar-fragment -->
+    <div th:replace="admin/sidebar::sidebar-fragment(${path})"></div>
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+            </div>
+        </div>
+        <!-- Main content -->
+        <div class="content">
+            <div class="container">
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title">乐淘乐器商城管理员首页</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="text-center mb-4">
+                            <!-- 乐淘乐器商城 logo -->
+                            <img th:src="@{/goods-img/lqlogo.png}" class="img-fluid" style="max-width: 300px;">
+                        </div>
+                        <p class="lead">乐淘乐器商城是专注于乐器销售的专业电商平台，为广大乐器爱好者和从业者提供一站式购物体验。</p>
+                        <p>前台商城系统功能丰富，满足各类顾客的需求：</p>
+                        <ul class="text">
+                            <li>首页展示：精心呈现热门乐器、优惠活动，吸引顾客驻足。</li>
+                            <li>乐器搜索：方便顾客快速找到心仪乐器，节省购物时间。</li>
+                            <li>乐器分类：按不同类型、品牌、价格区间等细分，便于顾客精准筛选。</li>
+                            <li>首页轮播：及时展示新品、特色乐器，激发顾客购买欲。</li>
+                            <li>新品上架：第一时间为顾客带来最新的乐器产品。</li>
+                            <li>乐器推荐：根据顾客浏览和购买历史，智能推荐相关乐器。</li>
+                            <li>乐器展示：提供详细的乐器信息、高清图片和视频，让顾客全面了解商品。</li>
+                            <li>购物车：方便顾客集中管理所选商品，随时调整数量和款式。</li>
+                            <li>订单结算：支持多种支付方式，确保交易安全便捷。</li>
+                            <li>订单流程：实时跟踪订单状态，让顾客随时掌握物流信息。</li>
+                            <li>个人订单管理：顾客可轻松查看、管理自己的订单记录。</li>
+                            <li>会员中心：为会员提供专属福利、积分兑换等特权。</li>
+                            <li>帮助中心：解答顾客常见问题，提供购物指导和售后支持。</li>
+                        </ul>
+                        <p>后台管理系统为商城管理员提供了强大的运营支持：</p>
+                        <ul class="text">
+                            <li>数据面板：直观展示商城运营数据，如销售数据、顾客流量等，辅助决策。</li>
+                            <li>轮播图管理：灵活更新首页轮播内容，突出重点商品和活动。</li>
+                            <li>乐器管理：对乐器信息进行全面管理，包括添加、编辑、删除等操作。</li>
+                            <li>订单管理：高效处理顾客订单，跟踪物流状态，确保订单顺利完成。</li>
+                            <li>会员管理：维护会员信息，开展会员营销活动，提高顾客忠诚度。</li>
+                            <li>分类管理：合理调整乐器分类结构，方便顾客查找商品。</li>
+                            <li>设置：对商城的基本信息、页面布局等进行个性化设置。</li>
+                        </ul>
+                        <p>乐淘乐器商城面向的顾客群体广泛，无论是专业的音乐家、音乐教师，还是业余的乐器爱好者、初学者，都能在这里找到适合自己的乐器和配件。我们致力于为每一位顾客提供优质的商品和服务，打造一个便捷、放心的购物环境。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 引入页脚footer-fragment -->
+    <div th:replace="admin/footer::footer-fragment"></div>
+</div>
+<!-- jQuery -->
+<script th:src="@{/admin/plugins/jquery/jquery.min.js}"></script>
+<!-- Bootstrap 4 -->
+<script th:src="@{/admin/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<!-- AdminLTE App -->
+<script th:src="@{/admin/dist/js/adminlte.min.js}"></script>
+</body>
+</html>

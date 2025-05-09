@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>乐淘乐器商城-购物车</title>
+    <link rel="stylesheet" th:href="@{mall/css/iconfont.css}">
+    <link rel="stylesheet" th:href="@{mall/css/common.css}">
+    <link rel="stylesheet" th:href="@{mall/styles/header.css}">
+    <link rel="stylesheet" th:href="@{mall/styles/cart.css}">
+    <link rel="stylesheet" th:href="@{mall/styles/footer.css}">
+    <link rel="stylesheet" th:href="@{/admin/plugins/sweetalert/sweetalert.css}"/>
+    <link rel="stylesheet" href="/mall/styles/footer.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="/mall/styles/all.min.css">
+    <link rel="stylesheet" href="/mall/styles/all.min2.css">
+    <link rel="icon" href="/goods-img/lqlogo.png" type="image/png">
+</head>
+<body>
+<header th:replace="mall/header::header-fragment"></header>
+<div id="cart">
+
+    <div class="cart_bg">
+        <th:block th:if="${#lists.isEmpty(myShoppingCartItems)}">
+            <div class="list center">
+                <img style="position: absolute;width:10%;height:25%;margin-top: 16px;left: 45%;" th:src="@{/mall/image/GoShopping.png}">
+            </div>
+        </th:block>
+
+        <th:block th:unless="${#lists.isEmpty(myShoppingCartItems)}">
+
+            <div class="shoppingCart">
+                <table id="cartTable">
+                    <thead>
+                    <tr>
+                        <th>图片</th>
+                        <th>乐器名称</th>
+                        <th>单价</th>
+                        <th>数量</th>
+                        <th>小计</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <th:block th:each="item : ${myShoppingCartItems}">
+                        <tr>
+                            <td><img th:src="@{${item.goodsCoverImg}}" ></td>
+                            <td th:text="${item.goodsName}">民谣吉他</td>
+                            <td data-price="800" th:text="${item.sellingPrice+'元'}" class="ProductPrice">800元</td>
+                            <td>
+                                <!--                            <button class="quantity-btn" onclick="decreaseQuantity(this)">-</button>-->
+                                <!--                            <span class="quantity">2</span>-->
+                                <!--                            <button class="quantity-btn" onclick="increaseQuantity(this)">+</button>-->
+                                <input id="goods_count" class="goods_count" th:id="${'goodsCount'+item.cartItemId}" type="number"
+                                       th:onblur="'updateItem('+${item.cartItemId}+')'"
+                                       th:value="${item.goodsCount}" step="1" min="1"
+                                       max="5" style="text-align: center;height: 22px;width: 40px;">
+                            </td>
+                            <td class="subtotal ProductPrice" th:text="${item.goodsCount*item.sellingPrice+'元'}">1600元</td>
+                            <td><button th:onclick="'deleteItem('+${item.cartItemId}+')'">删除</button></td>
+                        </tr>
+                    </th:block>
+                    </tbody>
+                </table>
+            </div>
+        </th:block>
+
+    </div>
+</div>
+<div class="pre_order mt20 center">
+    <div class="tips fl ml20">
+        <ul>
+            <li><a th:href="@{/index}">继续购物</a></li>
+            <li>|</li>
+            <li>共<span th:text="${itemsTotal}">13</span>件商品</li>
+            <div class="clear"></div>
+        </ul>
+    </div>
+    <div class="order_div fr">
+        <div class="order_total fl">合计（不含运费）：<span th:text="${priceTotal}+'.00元'">1299.00元</span></div>
+        <div class="order_button fr">
+            <th:block th:if="${itemsTotal == 0}">
+                <input class="order_button_c" type="button" name="tip"
+                       onclick="tip()"
+                       value="去结算"/>
+            </th:block>
+            <th:block th:unless="${itemsTotal == 0}">
+                <input class="order_button_d" type="button" name="settle"
+                       onclick="settle()"
+                       value="去结算"/>
+            </th:block>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+</div>
+<div th:replace="mall/footer::footer-fragment"></div>
+
+</body>
+<!-- jQuery -->
+<script th:src="@{/admin/plugins/jquery/jquery.min.js}"></script>
+<script th:src="@{/admin/plugins/sweetalert/sweetalert.min.js}"></script>
+<script type="text/javascript">
+    function deleteRow(button) {
+        var row = button.parentNode.parentNode;
+        var table = row.parentNode.parentNode;
+        table.removeChild(row);
+        updateTotal();
+    }
+
+    function updateSubtotal(button) {
+        var row = button.parentNode.parentNode;
+        var price = parseInt(row.cells[2].getAttribute('data-price'));
+        var quantity = parseInt(row.querySelector('.quantity').textContent);
+        var subtotal = price * quantity;
+        row.querySelector('.subtotal').textContent = subtotal + '元';
+    }
+
+    function updateTotal() {
+        var rows = document.querySelectorAll('#cartTable tbody tr');
+        var total = 0;
+        rows.forEach(function (row) {
+            var subtotal = parseInt(row.querySelector('.subtotal').textContent.replace('元', ''));
+            total += subtotal;
+        });
+        document.getElementById('total').textContent = total;
+    }
+    /**
+     * 购物车中数量为0时提示
+     */
+    function tip() {
+        swal("购物车中无数据，无法结算", {
+            icon: "error",
+        });
+    }
+
+    /**
+     * 跳转至结算页面
+     */
+    function settle() {
+        window.location.href = '/shop-cart/settle'
+    }
+
+    /**
+     *更新购物项
+     *
+     * todo 判断是否与原值相同
+     */
+    function updateItem(id) {
+        var domId = 'goodsCount' + id;
+        var goodsCount = $("#" + domId).val();
+        if (goodsCount > 5) {
+            swal("单个商品最多可购买5个", {
+                icon: "error",
+            });
+            return;
+        }
+        if (goodsCount < 1) {
+            swal("数量异常", {
+                icon: "error",
+            });
+            return;
+        }
+        var data = {
+            "cartItemId": id,
+            "goodsCount": goodsCount
+        };
+        $.ajax({
+            type: 'PUT',
+            url: '/shop-cart',
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            success: function (result) {
+                if (result.resultCode == 200) {
+                    window.location.reload();
+                } else {
+                    swal("操作失败", {
+                        icon: "error",
+                    });
+                }
+            },
+            error: function () {
+                swal("操作失败", {
+                    icon: "error",
+                });
+            }
+        });
+    }
+
+    /**
+     * * 删除购物项
+     * @param id
+     */
+    function deleteItem(id) {
+        swal({
+            title: "确认弹框",
+            text: "确认要删除数据吗?",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then((flag) => {
+                if (flag) {
+                    $.ajax({
+                        type: 'DELETE',
+                        url: '/shop-cart/' + id,
+                        success: function (result) {
+                            if (result.resultCode == 200) {
+                                window.location.reload();
+                            } else {
+                                swal("操作失败", {
+                                    icon: "error",
+                                });
+                            }
+                        },
+                        error: function () {
+                            swal("操作失败", {
+                                icon: "error",
+                            });
+                        }
+                    });
+                }
+            }
+        )
+        ;
+    }
+</script>
+</html>

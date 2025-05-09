@@ -1,0 +1,235 @@
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="utf-8">-->
+<!--    <meta http-equiv="X-UA-Compatible" content="IE=edge">-->
+<!--    <title>小米商城 管理系统 | Log in</title>-->
+<!--    &lt;!&ndash; Tell the browser to be responsive to screen width &ndash;&gt;-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1">-->
+<!--    <link rel="shortcut icon" th:href="@{/admin/dist/img/favicon.ico}"/>-->
+<!--    &lt;!&ndash; Font Awesome &ndash;&gt;-->
+<!--    <link rel="stylesheet" th:href="@{/admin/dist/css/font-awesome.min.css}">-->
+<!--    &lt;!&ndash; Ionicons &ndash;&gt;-->
+<!--    <link rel="stylesheet" th:href="@{/admin/dist/css/ionicons.min.css}">-->
+<!--    &lt;!&ndash; Theme style &ndash;&gt;-->
+<!--    <link rel="stylesheet" th:href="@{/admin/dist/css/adminlte.min.css}">-->
+<!--    <style>-->
+<!--        canvas {-->
+<!--            display: block;-->
+<!--            vertical-align: bottom;-->
+<!--        }-->
+<!--        #particles {-->
+<!--            background-color: #F7FAFC;-->
+<!--            position: absolute;-->
+<!--            top: 0;-->
+<!--            width: 100%;-->
+<!--            height: 100%;-->
+<!--            z-index: -1;-->
+<!--        }-->
+<!--    </style>-->
+<!--</head>-->
+<!--<body class="hold-transition login-page">-->
+<!--<div id="particles">-->
+<!--</div>-->
+<!--<div class="login-box">-->
+<!--    <div class="login-logo" style="color: #1baeae;">-->
+<!--        <img th:src="@{/mall/image/new-bee-logo-3.png}" style="height: 58px;float: left;margin-left: 10px;">-->
+<!--        <h1>管理系统登陆</h1>-->
+<!--    </div>-->
+<!--    &lt;!&ndash; /.login-logo &ndash;&gt;-->
+<!--    <div class="card">-->
+<!--        <div class="card-body login-card-body">-->
+<!--            <p class="login-box-msg"> 小米商城 , Let's Go !</p>-->
+<!--            <form th:action="@{/admin/login}" method="post">-->
+<!--                <div th:if="${not #strings.isEmpty(session.errorMsg)}" class="form-group">-->
+<!--                    <div class="alert alert-danger" th:text="${session.errorMsg}"></div>-->
+<!--                </div>-->
+<!--                <div class="form-group has-feedback">-->
+<!--                    <span class="fa fa-user form-control-feedback"></span>-->
+<!--                    <input type="text" id="userName" name="userName" class="form-control" placeholder="请输入账号"-->
+<!--                           required="true">-->
+<!--                </div>-->
+<!--                <div class="form-group has-feedback">-->
+<!--                    <span class="fa fa-lock form-control-feedback"></span>-->
+<!--                    <input type="password" id="password" name="password" class="form-control" placeholder="请输入密码"-->
+<!--                           required="true">-->
+<!--                </div>-->
+<!--                <div class="row">-->
+<!--                    <div class="col-6">-->
+<!--                        <input type="text" class="form-control" name="verifyCode" placeholder="请输入验证码" required="true">-->
+<!--                    </div>-->
+<!--                    <div class="col-6">-->
+<!--                        <img alt="单击图片刷新！" class="pointer" th:src="@{/common/kaptcha}"-->
+<!--                             onclick="this.src='/common/kaptcha?d='+new Date()*1">-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="form-group has-feedback"></div>-->
+<!--                <div class="row">-->
+<!--                    <div class="col-8">-->
+<!--                    </div>-->
+<!--                    <div class="col-4">-->
+<!--                        <button type="submit" class="btn btn-primary btn-block btn-flat">登录-->
+<!--                        </button>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </form>-->
+
+<!--        </div>-->
+<!--        &lt;!&ndash; /.login-card-body &ndash;&gt;-->
+<!--    </div>-->
+<!--</div>-->
+<!--&lt;!&ndash; /.login-box &ndash;&gt;-->
+
+<!--&lt;!&ndash; jQuery &ndash;&gt;-->
+<!--<script th:src="@{/admin/plugins/jquery/jquery.min.js}"></script>-->
+<!--&lt;!&ndash; Bootstrap 4 &ndash;&gt;-->
+<!--<script th:src="@{/admin/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>-->
+<!--<script th:src="@{/admin/dist/js/plugins/particles.js}"></script>-->
+<!--<script th:src="@{/admin/dist/js/plugins/login-bg-particles.js}"></script>-->
+<!--</body>-->
+<!--</html>-->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>乐淘乐器商城 管理系统 | 登录</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="/goods-img/lqlogo.png" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/admin/dist/css/adminlte.min.css}">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: #f0f2f5;
+        }
+        canvas {
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+        }
+        #particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        .login-box {
+            background: rgba(255,255,255,0.95);
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(50,50,93,0.1), 0 5px 15px rgba(0,0,0,0.07);
+            max-width: 450px;
+            width: 100%;
+            padding: 20px;
+            position: relative;
+        }
+        .login-logo {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            padding: 0 20px;
+        }
+        .login-logo img {
+            height: 68px;
+            margin-right: 15px;
+            filter: drop-shadow(0 0 10px rgba(0,0,0,0.1));
+        }
+        .login-logo h1 {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            font-weight: 700;
+            letter-spacing: -1px;
+        }
+        .login-card-body {
+            padding: 35px 45px;
+        }
+        .form-control {
+            border-radius: 25px;
+            border-color: #e0e0e0;
+            transition: all 0.3s ease;
+        }
+        .form-control:focus {
+            box-shadow: none;
+            border-color: #3498db;
+        }
+        .form-group.has-feedback i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #7f8c8d;
+        }
+        .login-box-msg {
+            color: #34495e;
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            font-weight: 300;
+        }
+        .btn-primary {
+            background: #3498db;
+            border-radius: 25px;
+            padding: 12px 35px;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+        .pointer {
+            border-radius: 10px;
+            border: 1px solid #e0e0e0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 127px;
+        }
+        .pointer:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body class="hold-transition login-page">
+<div id="particles"></div>
+<div class="login-box">
+    <div class="login-logo">
+        <img th:src="@{/goods-img/lqlogo.png}" alt="乐淘乐器商城" style="height: 68px; margin-left: 10px;">
+        <h1>管理系统登陆</h1>
+    </div>
+    <div class="card">
+        <div class="card-body login-card-body">
+            <p class="login-box-msg">乐淘乐器商城，开启音乐之旅！</p>
+            <form th:action="@{/admin/login}" method="post">
+                <div class="form-group has-feedback">
+<!--                    <i class="fas fa-user"></i>-->
+                    <input type="text" id="userName" name="userName" class="form-control" placeholder="请输入账号" required>
+                </div>
+                <div class="form-group has-feedback">
+<!--                    <i class="fas fa-lock"></i>-->
+                    <input type="password" id="password" name="password" class="form-control" placeholder="请输入密码" required>
+                </div>
+                <div class="verify-code-group row">
+                    <div class="col-8">
+                        <input type="text" class="form-control" name="verifyCode" placeholder="请输入验证码" required>
+                    </div>
+                    <div class="col-4">
+                        <img alt="单击刷新验证码" class="pointer" th:src="@{/common/kaptcha}" onclick="this.src='/common/kaptcha?d='+new Date().getTime()">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">
+                    立即登录 <i class="fas fa-arrow-right"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/admin/plugins/jquery/jquery.min.js}"></script>
+<script th:src="@{/admin/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/admin/dist/js/plugins/particles.js}"></script>
+<script th:src="@{/admin/dist/js/plugins/login-bg-particles.js}"></script>
+<script>
+    particlesJS.load('particles', '/admin/dist/js/plugins/particles.json');
+</script>
+</body>
+</html>

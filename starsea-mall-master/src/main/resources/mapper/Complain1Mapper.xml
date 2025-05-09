@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.siro.mall.dao.ComplainMapper">
+    <!-- 定义结果映射 -->
+    <resultMap id="ComplainResultMap" type="com.siro.mall.entity.Complain">
+        <id property="complainId" column="complain_id"/>
+        <result property="complainContent" column="complain_content"/>
+<!--        <result property="complainName" column="complain_name"/>-->
+    </resultMap>
+
+    <!-- 查询所有投诉信息 -->
+    <select id="selectAllComplains" resultMap="ComplainResultMap">
+        SELECT complain_id, complain_content
+        FROM tb_complain;
+    </select>
+
+    <!-- 根据投诉 ID 查询投诉信息 -->
+    <select id="selectComplainById" parameterType="int" resultMap="ComplainResultMap">
+        SELECT complain_id, complain_content
+        FROM tb_complain
+        WHERE complain_id = #{complainId};
+    </select>
+
+    <!-- 插入一条投诉信息 -->
+    <insert id="insertComplain" parameterType="com.siro.mall.entity.Complain">
+        INSERT INTO tb_complain (complain_content)
+        VALUES (#{complainContent});
+    </insert>
+
+    <!-- 更新一条投诉信息 -->
+    <update id="updateComplain" parameterType="com.siro.mall.entity.Complain">
+        UPDATE tb_complain
+        SET complain_content = #{complainContent}
+        WHERE complain_id = #{complainId};
+    </update>
+
+    <!-- 删除一条投诉信息 -->
+    <delete id="deleteComplainById" parameterType="int">
+        DELETE FROM tb_complain
+        WHERE complain_id = #{complainId};
+    </delete>
+</mapper>

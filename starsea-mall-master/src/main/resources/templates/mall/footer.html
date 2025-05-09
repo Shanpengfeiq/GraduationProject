@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!--<style>-->
+<!--    /* 全局样式 */-->
+<!--    body {-->
+<!--        font-family: Arial, sans-serif;-->
+<!--        margin: 0;-->
+<!--        padding: 0;-->
+<!--    }-->
+
+<!--    /* 页尾容器 */-->
+<!--    .site-footer {-->
+<!--        background-color: #222;-->
+<!--        color: white;-->
+<!--        padding: 40px 0;-->
+<!--    }-->
+
+<!--    /* 页尾内容容器 */-->
+<!--    .footer-container {-->
+<!--        max-width: 1200px;-->
+<!--        margin: 0 auto;-->
+<!--        display: flex;  !important;-->
+<!--        flex-wrap: wrap;-->
+<!--        justify-content: space-around !important;-->
+<!--    }-->
+
+<!--    /* 列样式 */-->
+<!--    .footer-column {-->
+<!--        width: 20%;-->
+<!--        margin-bottom: 20px;-->
+<!--    }-->
+
+<!--    /* 标题样式 */-->
+<!--    .footer-column h4 {-->
+<!--        color: #ffd700;-->
+<!--        margin-bottom: 15px;-->
+<!--    }-->
+
+<!--    /* 列表样式 */-->
+<!--    .footer-column ul {-->
+<!--        list-style-type: none;-->
+<!--        padding: 0;-->
+<!--    }-->
+
+<!--    .footer-column ul li {-->
+<!--        margin-bottom: 10px;-->
+<!--    }-->
+
+<!--    .footer-column ul li a {-->
+<!--        color: white;-->
+<!--        text-decoration: none;-->
+<!--        transition: color 0.3s ease;-->
+<!--    }-->
+
+<!--    .footer-column ul li a:hover {-->
+<!--        color: #ffd700;-->
+<!--    }-->
+
+<!--    /* 联系方式样式 */-->
+<!--    .contact-info p {-->
+<!--        margin-bottom: 10px;-->
+<!--    }-->
+
+<!--    /* 社交媒体图标样式 */-->
+<!--    .social-icons {-->
+<!--        display: flex;-->
+<!--    }-->
+
+<!--    .social-icons a {-->
+<!--        color: white;-->
+<!--        font-size: 20px;-->
+<!--        margin-right: 15px;-->
+<!--        transition: color 0.3s ease;-->
+<!--    }-->
+
+<!--    .social-icons a:hover {-->
+<!--        color: #ffd700;-->
+<!--    }-->
+
+<!--    /* 版权信息样式 */-->
+<!--    .copyright {-->
+<!--        text-align: center;-->
+<!--        margin-top: 30px;-->
+<!--        border-top: 1px solid #444;-->
+<!--        padding-top: 20px;-->
+<!--    }-->
+<!--    </style>-->
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+<div class="site-footer" th:fragment="footer-fragment" >
+<!--    <div class="footer-related">-->
+<!--        <div class="footer-article w1100">-->
+<!--            <dl class="contact clearfix">-->
+<!--                <dt class="fl">-->
+<!--                    <svg t="1739003679165" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="18947" width="64" height="64"><path d="M974.871011 445.48713C933.15627 3.212206 512.004531 16.486817 512.004531 16.486817 117.475516 32.593762 57.311845 345.44022 48.206694 448.943724c-1.038086 4.349691-1.602942 8.883639-1.602942 13.550494l0 16.481501c-0.017117 1.907017 0 2.909862 0 2.909862l0 90.400062-0.008055 0 0 64.948331 0.044302 0c33.015359 216.411201 232.665149 310.052386 232.665149 310.052386l77.565454 77.565454c70.862702-23.482288 38.783734-77.565454 38.783734-77.565454l-77.567468-77.567468-38.78172 38.783734C112.948616 799.357614 85.621081 638.410002 85.394534 637.049717l0.098674-3.317646c6.035196 2.11846 12.52147 3.286433 19.286649 3.286433 15.851199 0 30.204171-6.341285 40.690751-16.610381 55.204823 157.50008 209.272473 249.308756 366.495662 249.308756 158.735512 0 311.120678-86.738065 366.208703-249.653107 10.517793 10.474498 25.022803 16.954731 41.053225 16.954731 32.15549 0 58.173084-26.057868 58.173084-58.175097L977.401282 462.494219C977.402289 456.577834 976.514227 450.867858 974.871011 445.48713zM508.255943 718.221789c-123.24526 0-205.809837-86.808546-220.656177-231.298822l29.085535 0c23.557803 111.76691 87.339168 167.669495 191.341075 167.669495 103.965659 0 167.707756-55.902585 191.30382-167.669495l30.034009 0C714.51988 631.413243 631.42166 718.221789 508.255943 718.221789zM344.676366 346.939453c0-35.715792 20.147525-64.651303 45.03138-64.651303 24.8466 0 44.995132 28.935511 44.995132 64.651303 0 35.714785-20.149539 64.650296-44.995132 64.650296C364.823891 411.58975 344.676366 382.654239 344.676366 346.939453zM587.034679 346.522608c0-35.678538 20.149539-64.614049 44.993118-64.614049 24.8466 0 45.0344 28.935511 45.0344 64.614049 0 35.714785-20.1878 64.650296-45.0344 64.650296C607.184218 411.173911 587.034679 382.238401 587.034679 346.522608zM919.229205 404.319121c-8.97023 0-17.460181 2.031869-25.042941 5.652584C865.406819 230.127104 727.628357 94.052271 511.967277 94.052271c-237.586743 9.28236-355.090814 157.823286-381.791067 316.089595-7.671364-3.72845-16.287175-5.822745-25.395346-5.822745-2.513155 0-4.982007 0.17721-7.411591 0.485313C174.749462 50.927909 512.004531 55.269544 512.004531 55.269544c298.570009 12.738955 388.414276 230.226503 415.275629 349.616446C924.648195 404.521503 921.962865 404.319121 919.229205 404.319121z" p-id="18948" fill="#ffffff"></path></svg>-->
+<!--                </dt>-->
+<!--                <dd class="fl">-->
+<!--                    <p class="text">人工客服</p>-->
+<!--                    <p class="tel">10086-11-22</p>-->
+<!--                    <a href="">在线咨询</a>-->
+<!--                </dd>-->
+<!--            </dl>-->
+<!--            <dl class="col-article">-->
+<!--                <dt>帮助中心</dt>-->
+<!--                <dd><a rel="nofollow" href="" target="_blank">账户管理</a></dd>-->
+<!--                <dd><a rel="nofollow" href="" target="_blank">购物指南</a></dd>-->
+<!--&lt;!&ndash;                <dd><a rel="nofollow" href="" target="_blank">订单操作</a></dd>&ndash;&gt;-->
+<!--            </dl>-->
+<!--            <dl class="col-article">-->
+<!--                <dt>关注我们</dt>-->
+<!--&lt;!&ndash;                <dd><a rel="nofollow" href="" target="_blank">新浪微博</a></dd>&ndash;&gt;-->
+<!--                <dd><a rel="nofollow" href="" target="_blank">官方微信</a></dd>-->
+<!--                <dd><a rel="nofollow" href="" target="_blank">联系我们</a></dd>-->
+<!--            </dl>-->
+<!--            <dl class="col-article">-->
+<!--                <dt>线下门店</dt>-->
+<!--&lt;!&ndash;                <dd><a rel="nofollow" href="" target="_blank">STARSEA TOWN</a>&ndash;&gt;-->
+<!--&lt;!&ndash;                </dd>&ndash;&gt;-->
+<!--                <dd><a rel="nofollow" href="" target="_blank">服务网点</a></dd>-->
+<!--                <dd><a rel="nofollow" href="" target="_blank">授权体验店</a></dd>-->
+<!--            </dl>-->
+<!--            <dl class="col-article">-->
+<!--                <dt>关于商城</dt>-->
+<!--                <dd><a rel="nofollow" href="" target="_blank">了解乐器商城</a>-->
+<!--                </dd>-->
+<!--                <dd><a rel="nofollow" href="" target="_blank">加入乐器商城</a>-->
+<!--                </dd>-->
+<!--            </dl>-->
+<!--        </div>-->
+
+<!--        <div class="footer-info w1100" style="margin-top: -30px">-->
+<!--            <div class="info-text w1100">-->
+<!--                <p><a href="" target="_blank">乐器商城 &nbsp; | &nbsp;-->
+<!--                    XXXXX-XXXXX&nbsp;-->
+<!--                    | &nbsp;</a>-->
+<!--                    &nbsp;XXXXX-XXXXX-->
+<!--                </p>-->
+<!--                <p><a href="" target="_blank">DANXXX © 2024-2025 XXXX-->
+<!--                    XXXXX-->
+<!--                    XXXXXX| &nbsp; 北京中央政府版权所有 </a></p>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+
+    <div class="footer-container">
+        <!-- 联系方式列 -->
+        <div class="footer-column contact-info">
+            <h4>联系我们</h4>
+            <p><i class="fas fa-map-marker-alt"></i> 北京市朝阳区 XX 路 XX 号</p>
+            <p><i class="fas fa-phone"></i> 10086 - 11 - 22</p>
+            <p><i class="fas fa-envelope"></i> info@musicstore.com</p>
+        </div>
+        <!-- 帮助中心列 -->
+        <div class="footer-column">
+            <h4>帮助中心</h4>
+            <ul>
+                <li><a href="#">账户管理</a></li>
+                <li><a href="#">购物指南</a></li>
+                <li><a href="#">订单操作</a></li>
+            </ul>
+        </div>
+        <!-- 关注我们列 -->
+        <div class="footer-column">
+            <h4>关注我们</h4>
+            <ul>
+                <li><a href="#">官方微信</a></li>
+                <li><a href="#">新浪微博</a></li>
+            </ul>
+            <div class="social-icons">
+                <a href="#"><i class="fab fa-weixin"></i></a>
+                <a href="#"><i class="fab fa-weibo"></i></a>
+            </div>
+        </div>
+        <!-- 线下门店列 -->
+        <div class="footer-column">
+            <h4>线下门店</h4>
+            <ul>
+                <li><a href="#">服务网点</a></li>
+                <li><a href="#">授权体验店</a></li>
+            </ul>
+        </div>
+        <!-- 关于商城列 -->
+        <div class="footer-column">
+            <h4>关于商城</h4>
+            <ul>
+                <li><a href="#">了解乐器商城</a></li>
+                <li><a href="#">加入乐器商城</a></li>
+            </ul>
+        </div>
+    </div>
+    <!-- 版权信息 -->
+    <div class="copyright">
+        <p>&copy; 2024 - 2025 乐器商城版权所有。保留一切权利。</p>
+    </div>
+</div>
+</html>

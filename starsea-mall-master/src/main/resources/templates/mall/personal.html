@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="mall/header::head-fragment('乐淘乐器商城商城-个人中心','personal')">
+    <link rel="icon" href="/goods-img/lqlogo.png" type="image/png">
+</head>
+<link th:href="@{/mall/css/bootstrap-modal.css}" rel="stylesheet">
+<link th:href="@{/mall/styles/personal.css}" rel="stylesheet">
+<body>
+<header th:replace="mall/header::header-fragment"></header>
+<!-- nav -->
+<!--<nav th:replace="mall/header::nav-fragment"></nav>-->
+
+<!-- personal -->
+<div id="personal">
+
+    <div class="contentInfo">
+        <!-- 个人信息板块 -->
+        <div class="profile-section">
+            <button class="edit-button" id="open-modal-btn">修改个人信息</button>
+            <div class="profile-header">
+                <div class="profile-avatar">
+                    <img
+                         th:src="${session.newBeeMallUser.avatar != null and session.newBeeMallUser.avatar != ''}? ${session.newBeeMallUser.avatar} : '/goods-img/heand.png'">
+                </div>
+                <div class="profile-details">
+                    <div class="profile-info">
+                        <i class="fa-solid fa-at"></i>
+                        <span  th:text="'昵称:'+${session.newBeeMallUser.nickName}">昵称: 小明</span>
+                    </div>
+                    <div class="profile-info">
+                        <i class="fa-solid fa-mobile-screen-button"></i>
+                        <span th:text="'电话号码:'+${session.newBeeMallUser.loginName}">电话号码: 138xxxxxxxx</span>
+                    </div>
+                    <div class="profile-info">
+                        <i class="fa-solid fa-coins"></i>
+                        <span th:text="'余额:'+${session.newBeeMallUser.balance}+'.00元'" style="color: red;font-size: 20px">余额: 1000.00 元</span>
+                    </div>
+                    <div class="profile-info">
+                        <i class="fa-solid fa-house"></i>
+                        <span  th:text="'地址:'+${session.newBeeMallUser.address==''?'无':session.newBeeMallUser.address}">地址: 北京市朝阳区 xx 路 xx 号</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 订单板块 -->
+        <div class="order-section">
+            <div class="order-header">
+                <p class="order-title">我的订单</p>
+                <a th:href="@{/orders}" class="order-all">全部订单 ></a>
+            </div>
+            <div class="order-status">
+                <a th:href="@{/conditionsOrders(orderStatus=0)}" class="order-status-item">
+                    <i class="fa-solid fa-hourglass-start"></i>
+                    <span>待付款</span>
+                </a>
+                <a th:href="@{/conditionsOrders(orderStatus=1)}" class="order-status-item">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                    <span>已付款</span>
+                </a>
+                <a th:href="@{/conditionsOrders(orderStatus=3)}" class="order-status-item">
+                    <i class="fa-solid fa-truck-fast"></i>
+                    <span>待收货</span>
+                </a>
+                <a href="##" class="order-status-item">
+                    <i class="fa-solid fa-rotate-left"></i>
+                    <span>售后退款</span>
+                </a>
+                <a th:href="@{/conditionsOrders(orderStatus=4)}" class="order-status-item">
+                    <i class="fa-solid fa-recycle"></i>
+                    <span>交易成功</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="myModal" class="modal">
+        <div class="modal-content" style="margin: 5% auto;">
+            <span class="close">&times;</span>
+            <form class="personalForm">
+                <div class="avatar-container">
+                    <img id="avatar" class="avatar" th:src="${session.newBeeMallUser.avatar != null and session.newBeeMallUser.avatar != ''}? ${session.newBeeMallUser.avatar} : '/goods-img/heand.png'" alt="Avatar">
+                    <input type="file" id="avatar-upload" name="avatar" style="display: none;">
+                </div>
+                <label for="nickname"><i class="fa-solid fa-user"></i> 昵称:</label>
+                <input type="hidden" id="userId" th:value="${session.newBeeMallUser.userId}">
+                <input type="text" id="nickname" name="nickname" th:value="${session.newBeeMallUser.nickName}" placeholder="请输入昵称">
+                <label for="phone"><i class="fa-solid fa-phone"></i> 电话号码:</label>
+                <input type="tel" id="phone" name="phone" th:value="${session.newBeeMallUser.loginName}" placeholder="请输入电话号码">
+                <label for="password"><i class="fa-solid fa-lock"></i> 密码:</label>
+                <input type="text" id="password" name="password" placeholder="请输入密码">
+                <label for="address"><i class="fa-solid fa-location-dot"></i> 地址:</label>
+                <input type="text" id="address" name="address" placeholder="请输入地址">
+                <div class="button-container">
+                    <button type="button" id="cancel-btn">取消</button>
+                    <button type="button" id="confirm-btn">确认</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- 固定在左边的充值按钮 -->
+    <div class="fixed-recharge-btn">
+        <span class="close-btn">&times;</span>
+        立即充值，畅享福利！
+    </div>
+
+    <!-- 充值弹窗 -->
+    <div id="recharge-modal" class="modal">
+        <div class="modal-content">
+            <span class="close02">&times;</span>
+            <h2>开启充值之旅</h2>
+            <form>
+                <div class="form-group">
+                    <label for="recharge-amount">充值金额：</label>
+                    <input type="number" id="recharge-amount" name="recharge-amount" min="0" placeholder="请输入充值金额">
+                </div>
+                <div>
+                    <button type="button" id="cancel-btn02">取消</button>
+                    <button type="button" id="confirm-btn02">确认充值</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+<!--    <div id="myModaltc" class="modaltc">-->
+<!--        <div class="modaltc-content">-->
+<!--            <span class="closetc">&times;</span>-->
+<!--            <div class="success-icon">🎉</div>-->
+<!--            <div class="message" id="message"></div>-->
+<!--            <button class="ok-button" onclick="closeModal()">确定</button>-->
+<!--        </div>-->
+<!--    </div>-->
+</div>
+
+<div th:replace="mall/footer::footer-fragment"></div>
+
+<!-- jQuery -->
+<script th:src="@{/admin/plugins/jquery/jquery.min.js}"></script>
+<script th:src="@{/admin/dist/js/public.js}"></script>
+<!-- Bootstrap 3 -->
+<script th:src="@{/mall/js/bootstrap3.js}"></script>
+<script th:src="@{/mall/js/search.js}" type="text/javascript"></script>
+<script th:src="@{/admin/plugins/sweetalert/sweetalert.min.js}"></script>
+<script type="text/javascript">
+
+    const modal = document.getElementById('myModal');
+    const openModalBtn = document.getElementById('open-modal-btn');
+    const closeModalBtn = document.querySelector('.close');
+    const cancelBtn = document.getElementById('cancel-btn');
+    const confirmBtn = document.getElementById('confirm-btn');
+    const avatar = document.getElementById('avatar');
+    const avatarUpload = document.getElementById('avatar-upload');
+    const srcValue = avatar.getAttribute('src');
+
+    // 获取元素
+    const fixedRechargeBtn = document.querySelector('.fixed-recharge-btn');
+    const closeFixedBtn = document.querySelector('.close-btn');
+    const modal02 = document.getElementById('recharge-modal');
+    const closeModalBtn02 = document.querySelector('.close02');
+    const cancelBtn02 = document.getElementById('cancel-btn02');
+    const confirmBtn02 = document.getElementById('confirm-btn02');
+
+
+    openModalBtn.onclick = function () {
+        modal.style.display = "block";
+    }
+
+    closeModalBtn.onclick = function () {
+        modal.style.display = "none";
+    }
+
+    cancelBtn.onclick = function () {
+        modal.style.display = "none";
+    }
+
+    avatar.onclick = function () {
+        avatarUpload.click();
+    }
+
+    avatarUpload.onchange = function () {
+        const file = this.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                avatar.src = e.target.result;
+            }
+            reader.readAsDataURL(file);
+        }
+    }
+
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+
+    //绑定modal上的保存按钮
+    $('#confirm-btn').click(function () {
+        const file = avatarUpload.files[0];
+        var avatarImg;
+        //var avatar=file.name!=null?"/goods-img/avatar/"+file.name:srcValue;
+        if (file) {
+            avatarImg="/goods-img/avatar/"+file.name;
+        }else {
+            avatarImg=srcValue;
+        }
+        var address = $("#address").val();
+        if (address.trim().length < 10) {
+            swal("请输入正确的收货信息", {
+                icon: "error",
+            });
+            return;
+        }
+        var nickName = $("#nickname").val();
+        if (nickName.trim().length < 2) {
+            swal("请输入正确的昵称", {
+                icon: "error",
+            });
+            return;
+        }
+        var phone = $("#phone").val();
+        if (!validPhoneNumber(phone)) {
+            swal("请输入正确的电话号码", {
+                icon: "error",
+            });
+            return;
+        }
+        var password = $("#password").val();
+        if (password.trim().length < 6) {
+            swal("请输入正确的密码", {
+                icon: "error",
+            });
+            return;
+        }
+        var userId = $("#userId").val();
+        var data = {
+            "userId": userId,
+            "address": address,
+            "avatar":avatarImg,
+            "loginName": phone,
+            "passwordMd5": password,
+            "nickName": nickName
+        };
+        $.ajax({
+            type: 'POST',//方法类型
+            url: '/personal/updateInfo',
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            success: function (result) {
+                if (result.resultCode == 200) {
+                    modal.style.display = "none";
+                    window.location.reload();
+                } else {
+                    alert(result.message);
+                }
+                ;
+            },
+            error: function () {
+                alert('操作失败');
+            }
+        });
+    });
+
+
+    // 打开弹窗
+    fixedRechargeBtn.addEventListener('click', function () {
+        modal02.style.display = 'block';
+    });
+
+    // 关闭固定按钮
+    closeFixedBtn.addEventListener('click', function () {
+        modal02.style.display = 'none'
+        fixedRechargeBtn.style.display = 'none';
+        event.stopPropagation()
+    });
+
+    // 关闭弹窗
+    closeModalBtn02.addEventListener('click', function () {
+        modal02.style.display = 'none';
+    });
+
+    // 点击取消按钮关闭弹窗
+    cancelBtn02.addEventListener('click', function () {
+        modal02.style.display = 'none';
+    });
+    // console.log(userId, address, password, nickName,srcValue)
+    var balanceId = $("#userId").val();
+    // console.log(balanceId)
+
+    let amount = 100;
+    let modaltc = document.getElementById('myModaltc');
+    let messageElement = document.getElementById('message');
+    messageElement.textContent = `你已成功充值 ${amount} 元！`;
+    modaltc.style.display = 'block';
+
+    function closeModal() {
+        modaltc.style.display = 'none';
+    }
+
+    let closeButton = document.getElementsByClassName("close")[0];
+    closeButton.onclick = function () {
+        closeModal();
+    };
+
+    window.onclick = function (event) {
+        if (event.target == modaltc) {
+            closeModal();
+        }
+    };
+
+    // 点击确认按钮，这里可以添加充值逻辑
+    confirmBtn02.addEventListener('click', function () {
+        const amount = document.getElementById('recharge-amount').value;
+        var data = {
+            "userId": balanceId,
+            "balance":amount
+        };
+        if (amount > 0) {
+            $.ajax({
+                type: 'POST',//方法类型
+                url: '/personal/updateBalance',
+                contentType: 'application/json',
+                data: JSON.stringify(data),
+                success: function (result) {
+                    if (result.resultCode == 200) {
+                        // $('#personalInfoModal').modal('hide');
+                        alert(`你已成功充值 ${amount} 元！`);
+                        modal02.style.display = 'none';
+                        window.location.reload();
+                    } else {
+                        // $('#personalInfoModal').modal('hide');
+                        alert(result.message);
+                    }
+                    ;
+                },
+                error: function () {
+                    alert('操作失败');
+                }
+            });
+
+        } else {
+            alert('请输入有效的充值金额！');
+        }
+    });
+
+    // 点击弹窗外部关闭弹窗
+    window.addEventListener('click', function (event) {
+        if (event.target === modal) {
+            modal02.style.display = 'none';
+        }
+    });
+</script>
+</body>
+</html>

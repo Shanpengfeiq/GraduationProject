@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/marked/1.1.1/marked.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="icon" href="img/service.png" type="image/png">
+    <title>乐淘乐器商城客服</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .chat-container {
+            width: 600px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            background-color: white;
+        }
+
+        .chat-header {
+            background-color: #3498db;
+            color: white;
+            text-align: center;
+            padding: 25px;
+            font-size: 24px;
+            font-weight: 500;
+            letter-spacing: 1px;
+        }
+
+        .chat-messages {
+            height: 500px;
+            overflow-y: scroll;
+            padding: 20px;
+        }
+
+        .message {
+            margin-bottom: 20px;
+            padding: 15px 20px;
+            border-radius: 10px;
+            max-width: 80%;
+            display: flex;
+            align-items: flex-start;
+
+        }
+
+        .user-message {
+            background-color: #e0f2f1;
+            color: #333;
+            text-align: left;
+            align-self: flex-start;
+            flex-direction: row;
+            float: left;
+
+        }
+
+        .bot-message {
+            background-color: #f0f9eb;
+            color: #333;
+            text-align: left;
+            align-self: flex-end;
+            flex-direction: row-reverse;
+            float: right;
+        }
+
+        .message img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin: 0 0px;
+            flex-shrink: 0;
+            margin-right: 3px;
+        }
+
+        .message-text {
+            flex: 1;
+            white-space: normal;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            margin: auto;
+        }
+
+        .input-section {
+            display: flex;
+            padding: 20px;
+            margin-left: 50px;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-right: 15px;
+            font-size: 16px;
+        }
+
+        input[type="submit"] {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #2980b9;
+        }
+
+        .loader {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .loader::after {
+            content: "";
+            display: inline-block;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            border: 2px solid #ccc;
+            border-top-color: #3498db;
+            animation: spin 1s infinite linear;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* 投诉窗口样式 */
+        .complaint-popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        .complaint-popup textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        .complaint-popup button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .complaint-popup button.cancel {
+            background-color: #ccc;
+            color: white;
+            margin-right: 10px;
+        }
+
+        .complaint-popup button.submit {
+            background-color: #3498db;
+            color: white;
+        }
+        .home-button {
+            background-color: #ccc;
+            color: black;
+            padding: 12px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            margin-left: 10px;
+        }
+
+        .home-button:hover {
+            background-color: #aaa;
+        }
+    </style>
+</head>
+
+<body>
+<div class="chat-container">
+    <div class="chat-header">乐淘乐器商城客服</div>
+    <div id="chat-messages" class="chat-messages"></div>
+    <div class="input-section">
+        <form id="form">
+            <input type="text" id="message" name="message" placeholder="输入你的问题">
+            <input type="submit" value="发送">
+        </form>
+        <a href="http://localhost:8034/" class="home-button">返回首页</a>
+    </div>
+    <div id="loader" class="loader" style="display: none;"></div>
+</div>
+<!-- 投诉窗口 -->
+<div id="complaint-popup" class="complaint-popup">
+    <textarea placeholder="请输入你的投诉内容"></textarea>
+    <button class="cancel" id="cancel-btn">取消</button>
+    <button class="submit" id="submit-btn">投诉</button>
+</div>
+<script>
+    var loader = document.getElementById("loader");
+    var complaintPopup = document.getElementById("complaint-popup");
+    var cancelBtn = document.getElementById("cancel-btn");
+    var submitBtn = document.getElementById("submit-btn");
+    const textarea = complaintPopup.querySelector('textarea');
+    var zt=false;
+    // 关闭投诉窗口
+    cancelBtn.addEventListener("click", function () {
+        complaintPopup.style.display = "none";
+    });
+
+    // 处理投诉按钮点击事件（这里只是简单隐藏窗口，你可以根据需要添加实际的提交逻辑）
+    submitBtn.addEventListener("click", function () {
+        const complaint = textarea.value;
+        console.log('用户输入的投诉内容是:', complaint);
+        // 发送 AJAX 请求
+        fetch('/ai/complain', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ complainContent: complaint })
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('网络响应不正常');
+                }
+                return response.json();
+            })
+            .then(data => {
+                complaintPopup.style.display = "none";
+                zt = true;
+                if (zt === true) {
+                    console.log("投诉的内容");
+                    var chatBox = document.getElementById("chat-messages");
+                    var botMessage = document.createElement("div");
+                    botMessage.className = "message bot-message";
+
+                    var botAvatar = document.createElement("img");
+                    botAvatar.src = "img/service.png";
+                    botAvatar.alt = "客服头像";
+                    botMessage.appendChild(botAvatar);
+
+                    var botMessageText = document.createElement("span");
+                    botMessageText.className = "message-text";
+                    botMessage.appendChild(botMessageText);
+                    // 这里假设你需要显示一些内容，你可以根据实际情况修改
+                    botMessageText.innerHTML = data.message;
+
+                    chatBox.appendChild(botMessage);
+                    chatBox.scrollTop = chatBox.scrollHeight;
+                    zt = false;
+                }
+            })
+            .catch(error => {
+                console.error('请求出错:', error);
+            });
+    });
+
+    document.getElementById("form").addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        var messageInput = document.getElementById("message");
+        var message = messageInput.value;
+
+        if (message.trim() === "") {
+            alert("请输入你的问题");
+            return;
+        }
+
+        messageInput.value = "";
+
+        var chatBox = document.getElementById("chat-messages");
+
+        var userMessage = document.createElement("div");
+        userMessage.className = "message user-message";
+
+        var userAvatar = document.createElement("img");
+        userAvatar.src = "img/Customer.png";
+        userAvatar.alt = "用户头像";
+        userMessage.appendChild(userAvatar);
+
+        var userMessageText = document.createElement("span");
+        userMessageText.className = "message-text";
+        userMessageText.textContent = message;
+        userMessage.appendChild(userMessageText);
+
+        chatBox.appendChild(userMessage);
+        chatBox.scrollTop = chatBox.scrollHeight;
+
+        loader.style.display = "block";
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "http://localhost:8035/ai/chat?message=" + encodeURIComponent(message), true);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                loader.style.display = "none";
+
+                if (xhr.status === 200) {
+                    var response = xhr.responseText;
+                    if (response.includes("投诉")) {
+                        setTimeout(() => {
+                            complaintPopup.style.display = "block";
+                        },1000)
+
+                    }else {
+                        var botMessage = document.createElement("div");
+                        botMessage.className = "message bot-message";
+
+                        var botAvatar = document.createElement("img");
+                        botAvatar.src = "img/service.png";
+                        botAvatar.alt = "客服头像";
+                        botMessage.appendChild(botAvatar);
+
+                        var botMessageText = document.createElement("span");
+                        botMessageText.className = "message-text";
+                        botMessage.appendChild(botMessageText);
+                        botMessageText.innerHTML = marked(response);
+
+                        chatBox.appendChild(botMessage);
+                        chatBox.scrollTop = chatBox.scrollHeight;
+                    }
+                } else if (xhr.status === 400) {
+                    var error = JSON.parse(xhr.responseText);
+
+                    var errorMessage = document.createElement("div");
+                    errorMessage.className = "message bot-message";
+
+                    var botAvatar = document.createElement("img");
+                    botAvatar.src = "img/service.png";
+                    botAvatar.alt = "客服头像";
+                    errorMessage.appendChild(botAvatar);
+
+                    var errorMessageText = document.createElement("span");
+                    errorMessageText.className = "message-text";
+                    errorMessageText.textContent = error.message;
+                    errorMessage.appendChild(errorMessageText);
+
+                    chatBox.appendChild(errorMessage);
+                    chatBox.scrollTop = chatBox.scrollHeight;
+                } else {
+                    var errorMessage = document.createElement("div");
+                    errorMessage.className = "message bot-message";
+
+                    var botAvatar = document.createElement("img");
+                    botAvatar.src = "img/service.png";
+                    botAvatar.alt = "客服头像";
+                    errorMessage.appendChild(botAvatar);
+
+                    var errorMessageText = document.createElement("span");
+                    errorMessageText.className = "message-text";
+                    errorMessageText.textContent = "无法连接到后端服务。请确保后端服务正在运行。";
+                    errorMessage.appendChild(errorMessageText);
+
+                    chatBox.appendChild(errorMessage);
+                    chatBox.scrollTop = chatBox.scrollHeight;
+                }
+            }
+        };
+
+        xhr.onloadstart = function () {
+            loader.style.display = "block";
+        };
+
+        xhr.onloadend = function () {
+            loader.style.display = "none";
+        };
+
+        xhr.send();
+    });
+</script>
+</body>
+
+</html>

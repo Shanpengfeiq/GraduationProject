@@ -1,0 +1,263 @@
+body {
+    background: #14212a;
+}
+
+.top {
+    width: 100%;
+    height: 100px;
+    background: #fff;
+}
+
+.top .logo {
+    width: 1130px;
+    height: 160px;
+}
+
+.top .logo img {
+    border: none;
+    margin-top: -15px;
+}
+
+/*.form {*/
+/*    width: 1130px;*/
+/*    height: 588px;*/
+/*    background: url("../image/OIP-C.jpg") no-repeat center center;*/
+/*}*/
+
+/*.form .login {*/
+/*    width: 400px;*/
+/*    height: 470px;*/
+/*    margin: 150px auto;*/
+/*    background: #444;*/
+/*    color: #fff;*/
+/*    margin-right: 0px;*/
+/*    border-radius: 4px;*/
+/*    font: 12px "宋体", Times New Roman;*/
+/*}*/
+
+/*.form .login .login_center {*/
+/*    width: 360px;*/
+/*    margin: 10px auto;*/
+/*    padding: 30px 0;*/
+/*}*/
+
+/*.form .login .login_center.hide {*/
+/*    display: none;*/
+/*}*/
+
+/*.form .login .login_center .login_top {*/
+/*    margin: 10px 0;*/
+/*}*/
+
+/*.form .login .login_center .login_top .left {*/
+/*    height: 40px;*/
+/*    line-height: 40px;*/
+/*    font-weight: bold;*/
+/*    font-size: 20px;*/
+/*}*/
+
+/*.form .login .login_center .login_top .right {*/
+/*    height: 40px;*/
+/*    line-height: 40px;*/
+/*    font-size: 13px;*/
+/*}*/
+
+/*.form .login .login_center .login_top .right a {*/
+/*    color: #1baeae;*/
+/*    font-weight: bold;*/
+/*}*/
+
+/*.form .login .login_center .login_top .right a:hover {*/
+/*    color: #1baeae;*/
+/*}*/
+
+/*.form .login .login_center .login_top .under-line {*/
+/*    height: 2px;*/
+/*    background: #1baeae;*/
+/*    margin: 8px 0;*/
+/*}*/
+
+/*.form .login .login_center .login_main {*/
+/*    padding: 5px 0;*/
+/*}*/
+
+/*.form .login .login_center .login_main input:focus {*/
+/*    border: 1px solid #1baeae;*/
+/*}*/
+
+/*.form .login .login_center .login-info {*/
+/*    font: 16px Times New Roman;*/
+/*    height: 40px;*/
+/*    line-height: 40px;*/
+/*    margin: 35px 0;*/
+/*}*/
+
+/*.form .login .login_center .login-info .login-info-input {*/
+/*    width: 220px;*/
+/*    height: 30px;*/
+/*    border: 1px solid #ccc;*/
+/*    padding: 5px 10px;*/
+/*}*/
+
+/*.form .login .login_center .login-info .verify-code {*/
+/*    width: 100px;*/
+/*    height: 30px;*/
+/*    padding: 5px 10px;*/
+/*}*/
+
+/*.form .login .login_center .login-info .send {*/
+/*    width: 100px;*/
+/*    height: 42px;*/
+/*    margin-left: 12px;*/
+/*}*/
+
+/*.form .login .login_center .login_submit .submit {*/
+/*    border: none;*/
+/*    width: 240px;*/
+/*    height: 45px;*/
+/*    margin-left: 55px;*/
+/*    background: #1baeae;*/
+/*    color: #fff;*/
+/*    font-size: 20px;*/
+/*    font-weight: bold;*/
+/*    letter-spacing: 2px;*/
+/*    cursor: pointer;*/
+/*    border-radius: 4px;*/
+/*}*/
+
+/* 整体表单容器样式 */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: url("../image/login_bg1.webp") no-repeat center center fixed;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* 登录框样式 */
+.form {
+    width: 400px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    box-sizing: border-box;
+}
+
+/* 登录框顶部样式 */
+.form .login_top {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.form .login_top h2 {
+    color: #333;
+    font-size: 28px;
+    margin: 0;
+}
+
+.form .login_top p {
+    color: #666;
+    font-size: 14px;
+    margin: 5px 0 0;
+}
+
+.form .login_top p a {
+    color: #007BFF;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.form .login_top p a:hover {
+    color: #0056b3;
+}
+.toLogin{
+    color: #007BFF;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+.toLogin:hover{
+    color: #0056b3;
+}
+/* 登录框主体内容样式 */
+.form .login_main {
+    display: flex;
+    flex-direction: column;
+}
+
+.form .login_main .login-info {
+    margin-bottom: 20px;
+}
+
+.form .login_main .login-info label {
+    display: block;
+    color: #333;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.form .login_main .login-info input {
+    width: 100%;
+    padding: 12px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+}
+
+.form .login_main .login-info input:focus {
+    border-color: #007BFF;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+}
+
+/* 验证码区域样式 */
+.form .login_main .login-info .verify-code-group {
+    display: flex;
+    align-items: center;
+}
+
+.form .login_main .login-info .verify-code-group input {
+    flex: 1;
+    margin-right: 10px;
+}
+
+.form .login_main .login-info .verify-code-group img {
+    height: 42px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.form .login_main .login-info .verify-code-group img:hover {
+    transform: scale(1.05);
+}
+
+/* 登录提交按钮样式 */
+.form .login_submit {
+    text-align: center;
+}
+
+.form .login_submit .submit {
+    width: 100%;
+    padding: 12px;
+    background-color: #007BFF;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.form .login_submit .submit:hover {
+    background-color: #0056b3;
+}

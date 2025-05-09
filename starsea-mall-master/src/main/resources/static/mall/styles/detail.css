@@ -1,0 +1,693 @@
+/*detail*/
+/* 去掉 Chrome、Safari、Edge、Opera 浏览器中数字输入框的上下箭头 */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+#detail .dc {
+    width: 100%;
+    height: 58px;
+    background: #f0f0f0;
+}
+
+#detail .dc .content {
+    height: 58px;
+    width: 1226px;
+}
+
+#detail .dc .content .title {
+    width: 300px;
+    height: 58px;
+    line-height: 58px;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+#detail .dc .content nav {
+    display: inline-block;
+    width: 170px;
+    height: 58px;
+    line-height: 58px;
+}
+
+#detail .dc .content nav li {
+    font-size: 14px;
+    float: left;
+    display: block;
+    margin: 0px 5px;
+}
+
+#detail .dc .content nav li a {
+    color: #333;
+    font-size: 14px;
+}
+
+#detail .dc .content nav li a:hover {
+    color: #ff6700;
+}
+.product-stockNum{
+    font-size: 30px;
+    margin-left: 90px;
+    color: red;
+}
+/*#detail .intro{*/
+/*    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);*/
+/*}*/
+/*#detail .intro .left {*/
+/*    width: 560px;*/
+/*}*/
+
+/*#detail .intro .left > img {*/
+/*    width: 100%;*/
+/*    height: 100%;*/
+/*}*/
+
+/*#detail .intro .left .smallbox {*/
+/*    display: none;*/
+/*    background-color: rgba(0, 255, 0, 0.3);*/
+/*    width: 280px;*/
+/*    height: 280px;*/
+/*    position: absolute;*/
+/*    top: 0;*/
+/*    left: 0;*/
+/*}*/
+
+/*#detail .intro .left .swiper-container {*/
+/*    width: 100%;*/
+/*    height: 100%;*/
+/*    margin: 20px auto;*/
+/*    padding: 0 34px;*/
+/*    box-sizing: border-box;*/
+/*}*/
+
+/*#detail .intro .left .swiper-container .swiper-button-prev {*/
+/*    left: 0;*/
+/*    background-position: left;*/
+/*}*/
+
+/*#detail .intro .left .swiper-container .swiper-button-next {*/
+/*    right: 0;*/
+/*    background-position: right;*/
+/*}*/
+
+/*#detail .intro .right {*/
+/*    width: 620px;*/
+/*    background: #f8f8f8;*/
+/*    padding-bottom: 50px;*/
+/*}*/
+
+/*#detail .intro .right .sub_title {*/
+/*    font-size: 16px;*/
+/*    color: #b0b0b0;*/
+/*    line-height: 20px;*/
+/*    height: 100px;*/
+/*    margin-top: 44px;*/
+/*}*/
+
+/*#detail .intro .right .item_price {*/
+/*    width: 180px;*/
+/*    font-size: 18px;*/
+/*    color: #1baeae;*/
+/*    height: 100px;*/
+/*    font-weight: bold;*/
+/*    float: right;*/
+/*}*/
+
+/*#detail .intro .right .item_price del {*/
+/*    font-size: 14px;*/
+/*    margin-left: 5px;*/
+/*    color: #b0b0b0;*/
+/*    text-decoration: line-through;*/
+/*}*/
+
+/*#detail .intro .right .order {*/
+/*    height: 50px;*/
+/*    line-height: 50px;*/
+/*    float: right;*/
+/*}*/
+
+/*#detail .intro .right .order .car {*/
+/*    height: 50px;*/
+/*    width: 156px;*/
+/*    border: none;*/
+/*    background: #1baeae;*/
+/*    color: #fff;*/
+/*    font-size: 18px;*/
+/*    cursor: pointer;*/
+/*    margin-right: 40px;*/
+/*}*/
+
+/*#detail .intro .right .order .car:hover {*/
+/*    border: 1px solid #fff;*/
+/*}*/
+
+/*.swiper-container {*/
+/*    width: 300px;*/
+/*    height: 100%;*/
+/*}*/
+
+/*.swiper-container .swiper-wrapper .swiper-slide img {*/
+/*    width: 100%;*/
+/*    height: 100%;*/
+/*}*/
+
+/*.pro-policy {*/
+/*    height: 100px;*/
+/*    line-height: 50px;*/
+/*    float: right;*/
+/*    margin-top: 80px;*/
+/*}*/
+
+/*.pro-policy a {*/
+/*    display: inline-block;*/
+/*    *zoom: 1;*/
+/*    *display: inline;*/
+/*    cursor: default;*/
+/*    white-space: nowrap;*/
+/*    color: #b0b0b0;*/
+/*}*/
+
+/*.pro-policy span i {*/
+/*    font-size: 20px;*/
+/*    display: inline-block;*/
+/*    *zoom: 1;*/
+/*    *display: inline;*/
+/*    font-style: normal;*/
+/*    vertical-align: middle;*/
+/*}*/
+
+/*.pro-policy span em {*/
+/*    font-style: normal;*/
+/*    display: inline-block;*/
+/*    *zoom: 1;*/
+/*    *display: inline;*/
+/*    margin-left: 2px;*/
+/*    vertical-align: middle;*/
+/*}*/
+
+/*.tb-extra {*/
+/*    font-size: 13px;*/
+/*    margin-top: 40px;*/
+/*    height: 70px;*/
+/*    width: 55%;*/
+/*    float: left;*/
+/*}*/
+
+/*.tb-extra dl {*/
+/*    overflow: hidden;*/
+/*    *zoom: 1;*/
+/*}*/
+
+/*.tb-extra dl dt {*/
+/*    float: left;*/
+/*    width: 60px;*/
+/*    height: 22px;*/
+/*    line-height: 22px;*/
+/*    margin-bottom: 4px;*/
+/*    color: #6C6C6C;*/
+/*}*/
+
+/*.tb-extra dl dd a {*/
+/*    float: left;*/
+/*    margin-bottom: 15px;*/
+/*    margin-right: 15px;*/
+/*    height: 22px;*/
+/*    line-height: 22px;*/
+/*    color: #6C6C6C;*/
+/*}*/
+
+/*.goods img {*/
+/*    width: 100%;*/
+/*    margin-top: 2px;*/
+/*}*/
+/*
+新样式
+*/
+
+/* 商品容器样式 */
+.product-container {
+    background-color: #fff;
+    border-radius: 20px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    display: flex;
+    overflow: hidden;
+    width: 90%;
+    max-width: 1200px;
+    animation: fadeIn 0.8s ease-out;
+    margin: 30px auto;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 商品图片区域样式 */
+.product-images {
+    flex: 1;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+/* 主图片样式 */
+.main-image {
+    width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.main-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 15px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.main-image:hover img {
+    transform: scale(1.05);
+}
+
+/* 缩略图区域样式 */
+.thumbnail-images {
+    display: flex;
+    gap: 15px;
+}
+
+.thumbnail-images img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 10px;
+    cursor: pointer;
+    border: 3px solid transparent;
+    transition: border-color 0.3s ease, transform 0.3s ease;
+}
+
+.thumbnail-images img:hover {
+    border-color: #FF6B6B;
+    transform: scale(1.08);
+}
+
+.thumbnail-images img.active {
+    border-color: #FF6B6B;
+}
+
+/* 商品信息区域样式 */
+.product-info {
+    flex: 1;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: -43px;
+}
+
+/* 商品标题样式 */
+.product-title {
+    font-size: 32px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.price{
+    display: flex;
+    justify-items: center;
+    column-gap: 33px;
+
+
+}
+
+.price span{
+    margin-top:5px;
+}
+
+
+/* 商品价格样式 */
+.product-price {
+    font-size: 28px;
+    color: red;
+    font-weight: 600;
+    margin-bottom: 25px;
+}
+.originalPrice{
+    text-decoration: line-through;
+    font-size: 20px;
+    color: #5e5e5e;
+}
+/* 商品描述样式 */
+.product-description {
+    font-size: 16px;
+    line-height: 1.8;
+    color: #666;
+    margin-bottom: 35px;
+}
+
+/* 数量选择区域样式 */
+.quantity-selector {
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.quantity-selector button {
+    background-color: #e9ecef;
+    border: none;
+    padding: 10px 15px;
+    font-size: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border-radius: 50%;
+    margin: 0 10px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+.quantity-selector button:hover {
+    background-color: #ced4da;
+}
+
+.quantity-selector input {
+    width: 60px;
+    text-align: center;
+    border: 1px solid #ced4da;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 18px;
+}
+
+/* 加入购物车按钮样式 */
+.add-to-cart {
+    background: linear-gradient(45deg, #FF6B6B 0%, #FF8E53 100%);
+    color: white;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 18px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.add-to-cart:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(255, 107, 107, 0.6);
+}
+
+.add-to-cart i {
+    margin-right: 10px;
+}
+.button-container {
+    display: flex;
+    margin-left: -40px;
+    margin-top: 50px;
+}
+.add-to-cart{
+    margin-left: 20px;
+}
+/*
+新样式
+*/
+
+
+.introduce {
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 1197px;
+    margin: 0 auto;
+    padding-top: 35px;
+    background-color: white;
+}
+
+/* 切换文字容器样式 */
+.tab-links {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+    justify-content: space-between;
+    /* 修改为两端对齐，将.right 推到右边 */
+    align-items: center;
+    /* 垂直居中对齐 */
+    transition: all 0.3s ease;
+    height: 80px;
+    margin: 0 22px;
+}
+
+/* 固定切换文字容器样式 */
+.tab-links.fixed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 10px 0;
+    z-index: 100;
+}
+
+/* 切换文字样式 */
+.tab-links span {
+    cursor: pointer;
+    font-size: 18px;
+    color: #333;
+    padding-bottom: 5px;
+    border-bottom: 2px solid transparent;
+    transition: all 0.3s ease;
+    margin-top: 0;
+    /* 移除原有的 margin-top */
+    margin-left: 30px;
+    /* 移除原有的 margin-left */
+    width: 10%;
+    font-size: 28px;
+}
+
+/* 右侧内容样式 */
+.rigth {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    /*background-color: #f4f4f4;*/
+    /* 添加背景颜色 */
+    padding: 8px 90px;
+    /* 添加内边距 */
+    /*border-radius: 5px;*/
+    /* 添加圆角 */
+    /*box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);*/
+    /* 添加阴影 */
+    flex-grow: 1;
+    justify-content: flex-end;
+    margin-right: 90px;
+}
+
+.rigth.hind {
+    display: none;
+}
+
+.rigth p {
+    color:red;
+    /* 修改文字颜色 */
+    font-weight: bold;
+    /* 加粗文字 */
+    margin: 0 50px;
+    /* 移除默认的外边距 */
+    font-size: 35px;
+
+}
+.lefte{
+    margin-left: 15px;
+}
+.rigth button {
+    padding: 6px 12px;
+    /* 调整按钮内边距 */
+    background-color: #007BFF;
+    /* 按钮背景颜色 */
+    color: white;
+    /* 按钮文字颜色 */
+    border: none;
+    /* 移除边框 */
+    /*border-radius: 3px;*/
+    /*!* 按钮圆角 *!*/
+    cursor: pointer;
+    /* 鼠标指针样式 */
+    transition: background-color 0.3s ease;
+    /* 过渡效果 */
+    height: 55px;
+    width: 165px;
+}
+
+.rigth button:hover {
+    background-color: #0056b3;
+    /* 按钮悬停背景颜色 */
+}
+
+/* 切换文字悬停样式 */
+.tab-links span:hover {
+    color: #007BFF;
+    border-bottom-color: #007BFF;
+}
+
+/* 激活切换文字样式 */
+.tab-links span.active {
+    color: #007BFF;
+    border-bottom-color: #007BFF;
+}
+
+/* 内容区域样式 */
+.tab-content {
+    padding: 20px;
+    border-radius: 5px;
+    position: relative;
+    animation: fadeIn 0.5s ease-in-out;
+    margin: 70px 50px;
+}
+#product-intro p{
+    margin: 30px 0;
+    font-size: 18px;
+    color: #555;
+}
+#product-intro h3{
+    color: #556;
+    margin-top: 19px;
+}
+/* 隐藏非激活内容 */
+.tab-content div {
+    display: none;
+}
+
+/* 显示激活内容 */
+.tab-content div.active {
+    display: block;
+}
+
+
+
+
+
+
+/* 评论列表样式 */
+#comments-list {
+    list-style-type: none;
+    padding: 10px 0;
+}
+
+.title_hr{
+    background-color: #555555;
+    height: 2px;
+    margin-top: 15px;
+}
+/* 评论项样式 */
+#comments-list li {
+    margin-bottom: 10px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+    border-radius: 7px;
+    border: 1px solid #ddd;
+    padding: 16px 22px;
+    height: 90px;
+    margin-top: 12px;
+}
+#comments-list #near{
+    color: #999;
+    font-size: 12px;
+    margin: 12px 0;
+}
+#comments-list #PComment{
+    color: #555;
+    margin: 12px 0;
+}
+/* 评论输入框样式 */
+#comment-input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* 提交评论按钮样式 */
+#submit-comment {
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* 提交评论按钮悬停样式 */
+#submit-comment:hover {
+    background-color: #0056b3;
+}
+
+
+/*评分*/
+/* 设置星星容器的样式 */
+#rating-container {
+    display: flex;
+    align-items: center;
+    display: block;
+    margin-left: 10px;
+}
+#starComments{
+    display: flex;
+    margin-left: 20px;
+}
+/* 设置星星图标的样式 */
+.star {
+    font-size: 30px;
+    cursor: pointer;
+    color: lightgray; /* 初始颜色为浅灰色 */
+    transition: color 0.2s ease; /* 添加颜色过渡效果 */
+}
+/*头像*/
+#comments-list img{
+    width: 70px;
+    height: 70px;
+    border-radius: 35px;
+    float: left;
+    margin-top: 8px;
+    margin-right: 20px;
+}
+
+
+
+/* 定义选中星星的颜色为红色 */
+.star.selected {
+    color: red;
+}
+#starList{
+    display: flex;
+}
+#starList #rating-container i{
+    font-size: 15px;
+}
+
+/* 淡入动画 */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
